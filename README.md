@@ -8,12 +8,8 @@
     <td><a href="./LICENSE.md"><strong>MIT License</strong></a></td>
   </tr>
   <tr>
-    <td><strong>Umbraco:</strong></td>
-    <td>Umbraco 10+</td>
-  </tr>
-  <tr>
     <td><strong>Target Framework:</strong></td>
-    <td>.NET 6</td>
+    <td>.NET 6 + .NET 7</td>
   </tr>
 </table>
 
