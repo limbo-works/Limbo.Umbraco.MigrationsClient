@@ -18,13 +18,13 @@
 
   <!-- Information for the NuGet package -->
   <PropertyGroup>
-    <PackageId>Limbo.Umbraco.Limbo.Umbraco.MigrationsClient</PackageId>
+    <PackageId>Limbo.Umbraco.MigrationsClient</PackageId>
     <PackageTags>Limbo, Umbraco, Migrations</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/limbo-works/Limbo.Umbraco.Limbo.Umbraco.MigrationsClient</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.migrationsclient/v1/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Limbo.Umbraco.MigrationsClient</RepositoryUrl>
+    <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.MigrationsClient</RepositoryUrl>
   </PropertyGroup>
 
   <!-- Include dependencies -->
