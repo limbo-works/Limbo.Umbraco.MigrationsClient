@@ -1,4 +1,6 @@
-# Limbo Migrations Client [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/vpre/Limbo.Umbraco.MigrationsClient.svg)](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.MigrationsClient.svg)](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient)
+# Limbo Migrations Client
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/vpre/Limbo.Umbraco.MigrationsClient.svg)](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.MigrationsClient.svg)](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient)
 
 **Limbo.Umbraco.Migrations** is a .NET API wrapper for our [**Limbo.Umbraco.MigrationsApi**](https://github.com/limbo-works/Limbo.Umbraco.MigrationsApi) package. It may be used on it's own, or together with [**Limbo.Umbraco.Migrations**](https://github.com/limbo-works/Limbo.Umbraco.Migrations).
 
