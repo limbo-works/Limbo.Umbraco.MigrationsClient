@@ -29,11 +29,11 @@
 Via  [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient/1.0.0):
 
 ```
-dotnet add package Limbo.Umbraco.MigrationsClient --version 1.0.0
+dotnet add package Limbo.Umbraco.MigrationsClient --version 1.0.1
 ```
 
 or:
 
 ```
-Install-Package Limbo.Umbraco.MigrationsClient -Version 1.0.0
+Install-Package Limbo.Umbraco.MigrationsClient -Version 1.0.1
 ```
