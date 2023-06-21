@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Limbo.Umbraco.MigrationsClient.Models;
 using Limbo.Umbraco.MigrationsClient.Responses;
 using Skybrud.Essentials.Http;
@@ -85,7 +86,9 @@ namespace Limbo.Umbraco.MigrationsClient {
         }
 
         public virtual void DownloadBytes(LegacyMedia media, string path) {
-            System.IO.File.WriteAllBytes(path, GetBytes(media));
+            string dir = Path.GetDirectoryName(path)!;
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            File.WriteAllBytes(path, GetBytes(media));
         }
 
         #endregion
