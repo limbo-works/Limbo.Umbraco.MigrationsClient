@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Limbo.Umbraco.MigrationsClient.Models;
+using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
 
 namespace Limbo.Umbraco.MigrationsClient {
 
@@ -17,6 +18,18 @@ namespace Limbo.Umbraco.MigrationsClient {
         }
 
         #region Public member methods
+        
+        public virtual LegacyContentType GetContentTypeById(int id) {
+            return HttpClient.GetContentTypeById(id).Body;
+        }
+
+        public virtual LegacyContentType GetContentTypeByKey(Guid key) {
+            return HttpClient.GetContentTypeByKey(key).Body;
+        }
+
+        public virtual LegacyContentType GetContentTypeByAlias(string alias) {
+            return HttpClient.GetContentTypeByAlias(alias).Body;
+        }
 
         public IReadOnlyList<LegacyContentItem> GetContentAtRoot() {
             return HttpClient.GetContentAtRoot().Body;

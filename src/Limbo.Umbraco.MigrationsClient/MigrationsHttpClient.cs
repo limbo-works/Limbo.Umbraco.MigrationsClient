@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using Limbo.Umbraco.MigrationsClient.Models;
+using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
 using Limbo.Umbraco.MigrationsClient.Responses;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;
+using Skybrud.Essentials.Http.Collections;
 
 namespace Limbo.Umbraco.MigrationsClient {
 
@@ -23,6 +25,19 @@ namespace Limbo.Umbraco.MigrationsClient {
         }
 
         #region Public member methods
+        
+        public virtual IMigrationsResponse<LegacyContentType> GetContentTypeById(int id) {
+            HttpQueryString query = new() { { "id", id } };
+            return new MigrationsResponse<LegacyContentType>(Get("/umbraco/Limbo/Migrations/GetContentTypeById", query));
+        }
+
+        public virtual IMigrationsResponse<LegacyContentType> GetContentTypeByKey(Guid key) {
+            return new MigrationsResponse<LegacyContentType>(Get($"/umbraco/Limbo/Migrations/GetContentTypeByKey?key={key}"));
+        }
+
+        public virtual IMigrationsResponse<LegacyContentType> GetContentTypeByAlias(string alias) {
+            return new MigrationsResponse<LegacyContentType>(Get($"/umbraco/Limbo/Migrations/GetContentTypeByAlias?alias={alias}"));
+        }
 
         public IMigrationsResponse<IReadOnlyList<LegacyContentItem>> GetContentAtRoot() {
             return new MigrationsListResponse<LegacyContentItem>(Get("/umbraco/Limbo/Migrations/GetContentAtRoot"));
