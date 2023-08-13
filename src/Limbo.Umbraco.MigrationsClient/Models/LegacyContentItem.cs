@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
+using System.Collections.Generic;
 
 namespace Limbo.Umbraco.MigrationsClient.Models {
 
@@ -15,6 +16,8 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
 
         public string Name { get; }
 
+        public IReadOnlyList<LegacyContentItem> Children { get; }
+
         private LegacyContentItem(JObject json) {
 
             JObject = json;
@@ -22,6 +25,7 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
             Id = json.GetInt32("id");
             Key = json.GetGuid("key");
             Name = json.GetString("name")!;
+            Children = json.GetArrayItems("children", Parse);
 
         }
 

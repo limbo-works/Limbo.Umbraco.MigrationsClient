@@ -5,12 +5,15 @@ using Limbo.Umbraco.MigrationsClient.Models.Properties;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
+using Skybrud.Essentials.Time;
 
 namespace Limbo.Umbraco.MigrationsClient.Models {
 
     public class LegacyEntity : JsonObjectBase, ILegacyEntity {
 
-        private readonly Dictionary<string, LegacyProperty> _properties;
+        private readonly Dictionary<string, ILegacyProperty> _properties;
+
+        #region Member methods
 
         public int Id { get; }
 
@@ -20,11 +23,17 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
 
         public string Url { get; }
 
-        public string Type => ContentTypeAlias;
-
         public string ContentTypeAlias { get; }
 
-        public IReadOnlyList<LegacyProperty> Properties { get; }
+        public EssentialsTime CreateDate { get; }
+
+        public EssentialsTime UpdateDate { get; }
+
+        public IReadOnlyList<ILegacyProperty> Properties { get; }
+
+        #endregion
+
+        #region Constructors
 
         protected LegacyEntity(JObject json) : base(json) {
 
@@ -34,11 +43,14 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
             Url = json.GetString("url")!;
             ContentTypeAlias = json.GetString("type")!;
 
+            CreateDate = json.GetString("createDate", EssentialsTime.Parse)!;
+            UpdateDate = json.GetString("updateDate", EssentialsTime.Parse)!;
+
             JObject jsonProperties = json.GetObject("properties")!;
 
             try {
 
-                List<LegacyProperty> properties = new();
+                List<ILegacyProperty> properties = new();
 
                 foreach (var property in jsonProperties.Properties()) {
                     LegacyProperty lp = jsonProperties.GetObject(property.Name, LegacyProperty.Parse)!;
@@ -54,14 +66,20 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
 
         }
 
+        #endregion
+
+        #region Member methods
+
         public bool TryGetValue(string alias, out JToken? result) {
-            if (_properties.TryGetValue(alias, out LegacyProperty? property) && property.Value.Type != JTokenType.Null) {
+            if (_properties.TryGetValue(alias, out ILegacyProperty? property) && property.Value.Type != JTokenType.Null) {
                 result = property.Value;
                 return true;
             }
             result = null;
             return false;
         }
+
+        #endregion
 
     }
 
