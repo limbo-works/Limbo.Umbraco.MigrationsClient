@@ -28,21 +28,21 @@ public interface IMigrationsClient {
     /// <returns>An instance of <see cref="LegacyContentType"/>.</returns>
     LegacyContentType GetContentTypeByAlias(string alias);
 
-    IReadOnlyList<LegacyContentItem> GetContentAtRoot();
+    IReadOnlyList<LegacyContentItem> GetContentAtRoot(int? maxLevel = null);
 
-    LegacyContent GetContentById(int id);
+    LegacyContent GetContentById(int id, int? maxLevel = null);
 
-    TContent GetContentById<TContent>(int id) where TContent : ILegacyContent<TContent>;
+    TContent GetContentById<TContent>(int id, int? maxLevel = null) where TContent : ILegacyContent<TContent>;
 
-    LegacyContent GetContentByKey(Guid key);
+    LegacyContent GetContentByKey(Guid key, int? maxLevel = null);
 
-    TContent GetContentByKey<TContent>(Guid key) where TContent : ILegacyContent<TContent>;
+    TContent GetContentByKey<TContent>(Guid key, int? maxLevel = null) where TContent : ILegacyContent<TContent>;
 
-    IReadOnlyList<LegacyContentItem> GetMediaAtRoot();
+    IReadOnlyList<LegacyContentItem> GetMediaAtRoot(int? maxLevel = null);
 
-    LegacyMedia GetMediaById(int id);
+    LegacyMedia GetMediaById(int id, int? maxLevel = null);
 
-    LegacyMedia GetMediaByKey(Guid key);
+    LegacyMedia GetMediaByKey(Guid key, int? maxLevel = null);
 
     IReadOnlyList<LegacyMember> GetAllMembers();
 

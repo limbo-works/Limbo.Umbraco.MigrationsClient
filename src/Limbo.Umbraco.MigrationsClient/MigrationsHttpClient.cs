@@ -25,7 +25,7 @@ namespace Limbo.Umbraco.MigrationsClient {
         }
 
         #region Public member methods
-        
+
         public virtual IMigrationsResponse<LegacyContentType> GetContentTypeById(int id) {
             HttpQueryString query = new() { { "id", id } };
             return new MigrationsResponse<LegacyContentType>(Get("/umbraco/Limbo/Migrations/GetContentTypeById", query));
@@ -39,46 +39,70 @@ namespace Limbo.Umbraco.MigrationsClient {
             return new MigrationsResponse<LegacyContentType>(Get($"/umbraco/Limbo/Migrations/GetContentTypeByAlias?alias={alias}"));
         }
 
-        public IMigrationsResponse<IReadOnlyList<LegacyContentItem>> GetContentAtRoot() {
-            return new MigrationsListResponse<LegacyContentItem>(Get("/umbraco/Limbo/Migrations/GetContentAtRoot"));
+        public IMigrationsResponse<IReadOnlyList<LegacyContentItem>> GetContentAtRoot(int? maxLevel = null) {
+            HttpQueryString query = new();
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+            return new MigrationsListResponse<LegacyContentItem>(Get("/umbraco/Limbo/Migrations/GetContentAtRoot", query));
         }
 
-        public IMigrationsResponse<LegacyContent> GetContentById(int id) {
-            return new MigrationsResponse<LegacyContent>(Get($"/umbraco/Limbo/Migrations/GetContentById?id={id}"));
+        public IMigrationsResponse<LegacyContent> GetContentById(int id, int? maxLevel = null) {
+            HttpQueryString query = new() { { "id", id } };
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+            return new MigrationsResponse<LegacyContent>(Get("/umbraco/Limbo/Migrations/GetContentById", query));
         }
 
-        public IMigrationsResponse<TContent> GetContentById<TContent>(int id) where TContent : ILegacyContent<TContent> {
-            return new MigrationsResponse<TContent>(Get($"/umbraco/Limbo/Migrations/GetContentById?id={id}"));
+        public IMigrationsResponse<TContent> GetContentById<TContent>(int id, int? maxLevel = null) where TContent : ILegacyContent<TContent> {
+            HttpQueryString query = new() { { "id", id } };
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+            return new MigrationsResponse<TContent>(Get("/umbraco/Limbo/Migrations/GetContentById", query));
         }
 
-        public IMigrationsResponse<LegacyContent> GetContentByKey(Guid key) {
-            return new MigrationsResponse<LegacyContent>(Get($"/umbraco/Limbo/Migrations/GetContentByKey?key={key}"));
+        public IMigrationsResponse<LegacyContent> GetContentByKey(Guid key, int? maxLevel = null) {
+            HttpQueryString query = new() { { "key", key } };
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+            return new MigrationsResponse<LegacyContent>(Get("/umbraco/Limbo/Migrations/GetContentByKey", query));
         }
 
-        public IMigrationsResponse<TContent> GetContentByKey<TContent>(Guid key) where TContent : ILegacyContent<TContent> {
-            return new MigrationsResponse<TContent>(Get($"/umbraco/Limbo/Migrations/GetContentById?key={key}"));
+        public IMigrationsResponse<TContent> GetContentByKey<TContent>(Guid key, int? maxLevel = null) where TContent : ILegacyContent<TContent> {
+            HttpQueryString query = new() { { "key", key } };
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+            return new MigrationsResponse<TContent>(Get("/umbraco/Limbo/Migrations/GetContentById", query));
         }
 
-        public IMigrationsResponse<IReadOnlyList<LegacyContentItem>> GetMediaAtRoot() {
-            return new MigrationsListResponse<LegacyContentItem>(Get("/umbraco/Limbo/Migrations/GetContentAtRoot"));
+        public virtual IMigrationsResponse<IReadOnlyList<LegacyContentItem>> GetMediaAtRoot(int? maxLevel = null) {
+            HttpQueryString query = new();
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+            return new MigrationsListResponse<LegacyContentItem>(Get("/umbraco/Limbo/Migrations/GetMediaAtRoot", query));
         }
 
-        public IMigrationsResponse<LegacyMedia> GetMediaById(int id) {
-            string url = $"/umbraco/Limbo/Migrations/GetMediaById?id={id}";
+        public virtual IMigrationsResponse<LegacyMedia> GetMediaById(int id, int? maxLevel = null) {
+
+            HttpQueryString query = new() { { "id", id } };
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+
+            const string url = "/umbraco/Limbo/Migrations/GetMediaById";
+
             try {
-                return new MigrationsResponse<LegacyMedia>(Get(url));
+                return new MigrationsResponse<LegacyMedia>(Get(url, query));
             } catch (Exception ex) {
-                throw new Exception($"Failed getting media with ID {id} -> {url}", ex);
+                throw new Exception($"Failed getting media with ID {id} -> {url}?{query}", ex);
             }
+
         }
 
-        public IMigrationsResponse<LegacyMedia> GetMediaByKey(Guid key) {
-            string url = $"/umbraco/Limbo/Migrations/GetMediaByKey?key={key}";
+        public virtual IMigrationsResponse<LegacyMedia> GetMediaByKey(Guid key, int? maxLevel = null) {
+
+            HttpQueryString query = new() { { "key", key } };
+            if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+
+            const string url = "/umbraco/Limbo/Migrations/GetMediaByKey";
+
             try {
-                return new MigrationsResponse<LegacyMedia>(Get(url));
+                return new MigrationsResponse<LegacyMedia>(Get(url, query));
             } catch (Exception ex) {
-                throw new Exception($"Failed getting media with key {key} -> {url}", ex);
+                throw new Exception($"Failed getting media with key {key} -> {url}?{query}", ex);
             }
+
         }
 
         public IMigrationsResponse<IReadOnlyList<LegacyMember>> GetAllMembers() {
