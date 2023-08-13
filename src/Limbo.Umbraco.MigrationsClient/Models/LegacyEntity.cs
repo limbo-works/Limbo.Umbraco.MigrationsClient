@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Limbo.Umbraco.MigrationsClient.Models.Properties;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;

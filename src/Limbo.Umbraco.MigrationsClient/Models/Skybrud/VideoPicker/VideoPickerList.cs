@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.VideoPicker {
 
     public class VideoPickerList {
 

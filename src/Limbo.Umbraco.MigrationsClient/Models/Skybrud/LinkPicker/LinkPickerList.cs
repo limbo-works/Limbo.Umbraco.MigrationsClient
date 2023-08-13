@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker {
 
     public class LinkPickerList {
 

@@ -2,9 +2,9 @@
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models.Properties {
 
-    public class LegacyProperty : IJsonParsable<LegacyProperty> {
+    public class LegacyProperty : ILegacyProperty, IJsonParsable<LegacyProperty> {
 
         public JObject JObject { get; }
 
