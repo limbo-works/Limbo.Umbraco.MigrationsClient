@@ -28,7 +28,7 @@
 
 ### Installation
 
-Install via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient/1.0.0) - either via the .NET CLI:
+Install via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient/1.0.1) - either via the .NET CLI:
 
 ```
 dotnet add package Limbo.Umbraco.MigrationsClient --version 1.0.1
