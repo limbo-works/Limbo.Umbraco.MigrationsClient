@@ -8,7 +8,7 @@ using Skybrud.Essentials.Http.Client;
 
 namespace Limbo.Umbraco.MigrationsClient {
 
-    public class MigrationsHttpClient : HttpClient, IMigrationsHttpClient {
+    public class MigrationsHttpClient : HttpClient {
 
         public string Scheme { get; }
 
