@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models.Media {
 
     public class LegacyMedia : LegacyEntity, ILegacyMedia, IJsonParsable<LegacyMedia> {
 
@@ -15,9 +15,9 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
 
         public JToken? UmbracoFile { get; }
 
-        public IReadOnlyList<LegacyMediaItem> Path { get; }
+        public IReadOnlyList<ILegacyMediaItem> Path { get; }
 
-        public IReadOnlyList<LegacyMediaItem> Children { get; }
+        public IReadOnlyList<ILegacyMediaItem> Children { get; }
 
         private LegacyMedia(JObject json) : base(json) {
 

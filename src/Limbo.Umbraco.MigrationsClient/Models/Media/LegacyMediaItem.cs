@@ -1,11 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models.Media {
 
-    public class LegacyMediaItem : IJsonParsable<LegacyMediaItem> {
+    public class LegacyMediaItem : ILegacyMediaItem, IJsonParsable<LegacyMediaItem> {
 
         public JObject JObject { get; }
 
@@ -15,6 +16,8 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
 
         public string Name { get; }
 
+        public IReadOnlyList<ILegacyMediaItem> Children { get; }
+
         private LegacyMediaItem(JObject json) {
 
             JObject = json;
@@ -22,6 +25,7 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
             Id = json.GetInt32("id");
             Key = json.GetGuid("key");
             Name = json.GetString("name")!;
+            Children = json.GetArrayItems("children", Parse)!;
 
         }
 

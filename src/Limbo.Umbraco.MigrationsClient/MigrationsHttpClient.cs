@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Limbo.Umbraco.MigrationsClient.Models;
+using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
+using Limbo.Umbraco.MigrationsClient.Models.Media;
+using Limbo.Umbraco.MigrationsClient.Models.Members;
 using Limbo.Umbraco.MigrationsClient.Responses;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;

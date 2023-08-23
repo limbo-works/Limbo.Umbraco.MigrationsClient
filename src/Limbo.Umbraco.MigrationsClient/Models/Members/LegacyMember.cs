@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models.Members {
 
-    public class LegacyMember : LegacyEntity, ILegacyContent<LegacyMember> {
+    public class LegacyMember : LegacyEntity, ILegacyMember<LegacyMember> {
 
         private LegacyMember(JObject json) : base(json) { }
 
