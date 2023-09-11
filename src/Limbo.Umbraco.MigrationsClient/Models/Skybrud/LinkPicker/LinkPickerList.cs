@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
+using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker {
 
-    public class LinkPickerList {
+    public class LinkPickerList : JsonObjectBase {
 
-        public string Title { get; }
+        public string? Title { get; }
 
         public IReadOnlyList<LinkPickerItem> Items { get; }
 
-        public LinkPickerList(JObject json) {
-            Title = json.GetString("title")!;
+        public LinkPickerList(JObject json) : base(json) {
+            Title = json.GetString("title");
             Items = json.GetArrayItems("items", x => new LinkPickerItem(x));
         }
 
