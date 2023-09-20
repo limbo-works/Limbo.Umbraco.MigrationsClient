@@ -29,7 +29,7 @@
 
   <!-- Include dependencies -->
   <ItemGroup>
-    <PackageReference Include="Skybrud.Essentials" Version="1.1.51" />
+    <PackageReference Include="Skybrud.Essentials" Version="1.1.52" />
     <PackageReference Include="Skybrud.Essentials.Http" Version="1.1.4" />
   </ItemGroup>
 
