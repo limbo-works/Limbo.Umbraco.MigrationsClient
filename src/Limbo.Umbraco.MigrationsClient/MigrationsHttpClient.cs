@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Limbo.Umbraco.MigrationsClient.Models;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
