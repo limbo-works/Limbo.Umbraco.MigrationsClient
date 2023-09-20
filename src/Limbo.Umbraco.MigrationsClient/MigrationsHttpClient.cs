@@ -138,8 +138,15 @@ namespace Limbo.Umbraco.MigrationsClient {
         #region Private member methods
 
         protected override void PrepareHttpRequest(IHttpRequest request) {
+
+            // At least for some versions of Umbraco 7, this seems to be necessary - otherwise an internal cache in
+            // Umbraco will fail for some request (╯°□°）╯︵ ┻━┻
+            request.Accept = "application/json";
+
             request.SetAuthorizationBasic("api", ApiKey);
+
             if (request.Url.StartsWith("/")) request.Url = $"{Scheme}://{Host}{request.Url}";
+
         }
 
         #endregion
