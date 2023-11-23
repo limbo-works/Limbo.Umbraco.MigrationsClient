@@ -71,10 +71,10 @@ namespace Limbo.Umbraco.MigrationsClient {
             return new MigrationsResponse<TContent>(Get("/umbraco/Limbo/Migrations/GetContentById", query));
         }
 
-        public virtual IMigrationsResponse<IReadOnlyList<LegacyContentItem>> GetMediaAtRoot(int? maxLevel = null) {
+        public virtual IMigrationsResponse<IReadOnlyList<LegacyMediaItem>> GetMediaAtRoot(int? maxLevel = null) {
             HttpQueryString query = new();
             if (maxLevel is not null) query.Add("maxLevel", maxLevel);
-            return new MigrationsListResponse<LegacyContentItem>(Get("/umbraco/Limbo/Migrations/GetMediaAtRoot", query));
+            return new MigrationsListResponse<LegacyMediaItem>(Get("/umbraco/Limbo/Migrations/GetMediaAtRoot", query));
         }
 
         public virtual IMigrationsResponse<LegacyMedia> GetMediaById(int id, int? maxLevel = null) {

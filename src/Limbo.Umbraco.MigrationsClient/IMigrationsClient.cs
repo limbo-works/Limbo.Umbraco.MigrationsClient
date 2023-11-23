@@ -41,7 +41,7 @@ public interface IMigrationsClient {
 
     TContent GetContentByKey<TContent>(Guid key, int? maxLevel = null) where TContent : ILegacyContent<TContent>;
 
-    IReadOnlyList<LegacyContentItem> GetMediaAtRoot(int? maxLevel = null);
+    IReadOnlyList<LegacyMediaItem> GetMediaAtRoot(int? maxLevel = null);
 
     LegacyMedia GetMediaById(int id, int? maxLevel = null);
 

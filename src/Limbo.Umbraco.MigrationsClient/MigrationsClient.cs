@@ -54,7 +54,7 @@ namespace Limbo.Umbraco.MigrationsClient {
             return HttpClient.GetContentByKey<TContent>(key, maxLevel).Body;
         }
 
-        public IReadOnlyList<LegacyContentItem> GetMediaAtRoot(int? maxLevel = null) {
+        public IReadOnlyList<LegacyMediaItem> GetMediaAtRoot(int? maxLevel = null) {
             return HttpClient.GetMediaAtRoot(maxLevel).Body;
         }
 
