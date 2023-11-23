@@ -8,6 +8,8 @@ namespace Limbo.Umbraco.MigrationsClient.Models {
 
         Guid Key { get; }
 
+        string ContentTypeAlias { get; }
+
         string Name { get; }
 
     }
