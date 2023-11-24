@@ -18,6 +18,8 @@ namespace Limbo.Umbraco.MigrationsClient.Models.Media {
 
         public string Name { get; }
 
+        public string Url { get; }
+
         public IReadOnlyList<ILegacyMediaItem> Children { get; }
 
         private LegacyMediaItem(JObject json) {
@@ -27,6 +29,7 @@ namespace Limbo.Umbraco.MigrationsClient.Models.Media {
             Id = json.GetInt32("id");
             Key = json.GetGuid("key");
             Name = json.GetString("name")!;
+            Url = json.GetString("url")!;
             ContentTypeAlias = json.GetString("type")!;
             Children = json.GetArrayItems("children", Parse)!;
 
