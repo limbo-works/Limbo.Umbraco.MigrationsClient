@@ -2,33 +2,31 @@
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
-namespace Limbo.Umbraco.MigrationsClient.Models.Properties {
+namespace Limbo.Umbraco.MigrationsClient.Models.Properties;
 
-    public class LegacyProperty : ILegacyProperty, IJsonParsable<LegacyProperty> {
+public class LegacyProperty : ILegacyProperty, IJsonParsable<LegacyProperty> {
 
-        public JObject JObject { get; }
+    public JObject JObject { get; }
 
-        public string Alias { get; }
+    public string Alias { get; }
 
-        public string EditorAlias { get; }
+    public string EditorAlias { get; }
 
-        public JToken Value { get; }
+    public JToken Value { get; }
 
-        private LegacyProperty(JObject json) {
+    private LegacyProperty(JObject json) {
 
-            JObject = json;
+        JObject = json;
 
-            Alias = json.GetString("alias")!;
-            EditorAlias = json.GetString("editorAlias")!;
-            Value = json.GetValue("value");
+        Alias = json.GetString("alias")!;
+        EditorAlias = json.GetString("editorAlias")!;
+        Value = json.GetValue("value");
 
-        }
+    }
 
-        [return: NotNullIfNotNull("json")]
-        public static LegacyProperty? Parse(JObject? json) {
-            return json is null ? null : new LegacyProperty(json);
-        }
-
+    [return: NotNullIfNotNull("json")]
+    public static LegacyProperty? Parse(JObject? json) {
+        return json is null ? null : new LegacyProperty(json);
     }
 
 }

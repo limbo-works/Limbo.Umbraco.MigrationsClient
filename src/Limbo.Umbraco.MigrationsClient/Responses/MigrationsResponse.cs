@@ -5,24 +5,22 @@ using System.Reflection;
 using System;
 using Limbo.Umbraco.MigrationsClient.Models;
 
-namespace Limbo.Umbraco.MigrationsClient.Responses {
+namespace Limbo.Umbraco.MigrationsClient.Responses;
 
-    public class MigrationsResponse<T> : HttpResponseBase, IMigrationsResponse<T> where T : IJsonParsable<T> {
+public class MigrationsResponse<T> : HttpResponseBase, IMigrationsResponse<T> where T : IJsonParsable<T> {
 
-        public T Body { get; }
+    public T Body { get; }
 
-        public MigrationsResponse(IHttpResponse response) : base(response) {
+    public MigrationsResponse(IHttpResponse response) : base(response) {
 
-            if (response.StatusCode != HttpStatusCode.OK) throw new HttpException(response);
+        if (response.StatusCode != HttpStatusCode.OK) throw new HttpException(response);
 
-            var type = typeof(T);
+        var type = typeof(T);
 
-            var m = type.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public);
-            if (m == null) throw new Exception($"Type {type} doesn't specify a static 'Parse' method.");
+        var m = type.GetMethod("Parse", BindingFlags.Static | BindingFlags.Public);
+        if (m == null) throw new Exception($"Type {type} doesn't specify a static 'Parse' method.");
 
-            Body = ParseJsonObject(response.Body, x => (T)m.Invoke(null, new object[] { x })!);
-
-        }
+        Body = ParseJsonObject(response.Body, x => (T) m.Invoke(null, new object[] { x })!);
 
     }
 

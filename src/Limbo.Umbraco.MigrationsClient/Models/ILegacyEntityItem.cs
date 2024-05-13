@@ -1,17 +1,15 @@
 ﻿using System;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models;
 
-    public interface ILegacyEntityItem {
+public interface ILegacyEntityItem {
 
-        int Id { get; }
+    int Id { get; }
 
-        Guid Key { get; }
+    Guid Key { get; }
 
-        string ContentTypeAlias { get; }
+    string ContentTypeAlias { get; }
 
-        string Name { get; }
-
-    }
+    string Name { get; }
 
 }

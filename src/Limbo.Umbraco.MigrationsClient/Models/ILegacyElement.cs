@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
 
-namespace Limbo.Umbraco.MigrationsClient.Models {
+namespace Limbo.Umbraco.MigrationsClient.Models;
 
-    public interface ILegacyElement {
+public interface ILegacyElement {
 
-        Guid Key { get; }
+    Guid Key { get; }
 
-        string Name { get; }
+    string Name { get; }
 
-        string ContentTypeAlias { get; }
+    string ContentTypeAlias { get; }
 
-        IReadOnlyList<ILegacyProperty> Properties { get; }
-
-    }
+    IReadOnlyList<ILegacyProperty> Properties { get; }
 
 }

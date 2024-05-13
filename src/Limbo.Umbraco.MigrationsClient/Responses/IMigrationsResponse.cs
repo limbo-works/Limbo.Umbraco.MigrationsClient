@@ -1,9 +1,7 @@
-﻿namespace Limbo.Umbraco.MigrationsClient.Responses {
+﻿namespace Limbo.Umbraco.MigrationsClient.Responses;
 
-    public interface IMigrationsResponse<out T> {
+public interface IMigrationsResponse<out T> {
 
-        public T Body { get; }
-
-    }
+    public T Body { get; }
 
 }

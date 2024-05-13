@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Limbo.Umbraco.MigrationsClient.Models.Media {
+namespace Limbo.Umbraco.MigrationsClient.Models.Media;
 
-    public interface ILegacyMediaItem : ILegacyEntityItem {
+public interface ILegacyMediaItem : ILegacyEntityItem {
 
-        string Url { get; }
+    string Url { get; }
 
-        IReadOnlyList<ILegacyMediaItem> Children { get; }
-
-    }
+    IReadOnlyList<ILegacyMediaItem> Children { get; }
 
 }

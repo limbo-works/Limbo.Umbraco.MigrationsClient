@@ -3,20 +3,18 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace Limbo.Umbraco.MigrationsClient.Models.Media {
+namespace Limbo.Umbraco.MigrationsClient.Models.Media;
 
-    public interface ILegacyMedia : ILegacyEntity, ILegacyMediaItem {
+public interface ILegacyMedia : ILegacyEntity, ILegacyMediaItem {
 
-        int Width { get; }
+    int Width { get; }
 
-        int Height { get; }
+    int Height { get; }
 
-        int Size { get; }
+    int Size { get; }
 
-        JToken? UmbracoFile { get; }
+    JToken? UmbracoFile { get; }
 
-        IReadOnlyList<ILegacyMediaItem> Path { get; }
-
-    }
+    IReadOnlyList<ILegacyMediaItem> Path { get; }
 
 }

@@ -1,11 +1,9 @@
-﻿namespace Limbo.Umbraco.MigrationsClient.Models {
+﻿namespace Limbo.Umbraco.MigrationsClient.Models;
 
-    public interface ILegacyEntity : ILegacyElement {
+public interface ILegacyEntity : ILegacyElement {
 
-        int Id { get; }
+    int Id { get; }
 
-        string Url { get; }
-
-    }
+    string Url { get; }
 
 }

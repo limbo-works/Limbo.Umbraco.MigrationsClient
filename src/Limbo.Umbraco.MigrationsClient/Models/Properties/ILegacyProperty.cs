@@ -1,15 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Limbo.Umbraco.MigrationsClient.Models.Properties {
+namespace Limbo.Umbraco.MigrationsClient.Models.Properties;
 
-    public interface ILegacyProperty {
+public interface ILegacyProperty {
 
-        string Alias { get; }
+    string Alias { get; }
 
-        string EditorAlias { get; }
+    string EditorAlias { get; }
 
-        JToken Value { get; }
-
-    }
+    JToken Value { get; }
 
 }

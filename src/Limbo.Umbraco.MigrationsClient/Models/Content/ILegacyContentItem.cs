@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Limbo.Umbraco.MigrationsClient.Models.Content {
+namespace Limbo.Umbraco.MigrationsClient.Models.Content;
 
-    public interface ILegacyContentItem : ILegacyEntityItem {
+public interface ILegacyContentItem : ILegacyEntityItem {
 
-        string Url { get; }
+    string Url { get; }
 
-        IReadOnlyList<ILegacyContentItem> Children { get; }
-
-    }
+    IReadOnlyList<ILegacyContentItem> Children { get; }
 
 }
