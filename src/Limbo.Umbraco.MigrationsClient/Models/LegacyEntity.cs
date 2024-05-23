@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
 using Newtonsoft.Json.Linq;
@@ -70,7 +71,7 @@ public class LegacyEntity : JsonObjectBase, ILegacyEntity {
 
     #region Member methods
 
-    public bool TryGetValue(string alias, out JToken? result) {
+    public bool TryGetValue(string alias, [NotNullWhen(true)] out JToken? result) {
         if (_properties.TryGetValue(alias, out ILegacyProperty? property) && property.Value.Type != JTokenType.Null) {
             result = property.Value;
             return true;
