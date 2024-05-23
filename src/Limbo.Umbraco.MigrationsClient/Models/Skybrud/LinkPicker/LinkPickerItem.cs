@@ -1,32 +1,37 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Limbo.Umbraco.MigrationsClient.Exceptions;
 using Newtonsoft.Json.Linq;
+using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker;
 
-public class LinkPickerItem {
+public class LinkPickerItem : JsonObjectBase {
 
     public int Id { get; }
 
     public string Name { get; }
 
-    public string Url { get; }
+    public string? Udi { get; }
 
-    public string Target { get; }
+    public string? Url { get; }
 
-    public LinkPickerMode Mode { get; }
+    public string? Target { get; }
 
-    public LinkPickerItem(JObject json) {
-        if (json is null) throw new ArgumentNullException(nameof(json));
+    public LinkPickerType Type { get; }
+
+    public LinkPickerItem(JObject json) : base(json) {
+        if (json is null) throw new ArgumentNullException(nameof(json), "JSON source cannot be null.");
         Id = json.GetInt32("id");
         Name = json.GetString("name")!;
-        Url = json.GetString("url")!;
-        Target = json.GetString("target")!;
-        Mode = json.GetEnum<LinkPickerMode>("mode");
+        Udi = json.GetString("udi");
+        Url = json.GetString("url");
+        Target = json.GetString("target");
+        Type = json.GetEnumOrNull<LinkPickerType>("type") ?? json.GetEnumOrNull<LinkPickerType>("mode") ?? throw new MigrationsParseExcetion("Link item JSON source does contain either a 'type' or 'mode' property.");
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static LinkPickerItem? Parse(JObject? json) {
         return json is null ? null : new LinkPickerItem(json);
     }
