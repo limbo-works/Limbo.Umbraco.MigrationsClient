@@ -26,7 +26,7 @@ public class OpenOrClosedModel : IReadOnlyList<OpenOrClosedItem> {
 
     public static OpenOrClosedModel Parse(JArray array) {
 
-        List<OpenOrClosedItem> items = new();
+        List<OpenOrClosedItem> items = [];
 
         foreach (JToken token in array) {
 

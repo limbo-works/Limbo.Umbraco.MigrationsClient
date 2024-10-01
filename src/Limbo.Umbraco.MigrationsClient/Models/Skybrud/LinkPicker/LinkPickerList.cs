@@ -17,7 +17,7 @@ public class LinkPickerList : JsonObjectBase {
         Items = json.GetArrayItems("items", x => new LinkPickerItem(x));
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static LinkPickerList? Parse(JObject? json) {
         return json is null ? null : new LinkPickerList(json);
     }
