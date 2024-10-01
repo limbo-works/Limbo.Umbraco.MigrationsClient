@@ -51,7 +51,7 @@ public class LegacyEntity : JsonObjectBase, ILegacyEntity {
 
         try {
 
-            List<ILegacyProperty> properties = new();
+            List<ILegacyProperty> properties = [];
 
             foreach (var property in jsonProperties.Properties()) {
                 LegacyProperty lp = jsonProperties.GetObject(property.Name, LegacyProperty.Parse)!;
@@ -60,7 +60,7 @@ public class LegacyEntity : JsonObjectBase, ILegacyEntity {
             }
 
             Properties = properties;
-            _properties = Properties.ToDictionary(x => x.Alias);
+            _properties = Properties.ToDictionary(x => x.Alias, StringComparer.CurrentCultureIgnoreCase);
         } catch (Exception ex) {
             throw new Exception($"Failed parsing entity properties from JSON.\r\n\r\n{json}", ex);
         }
@@ -71,6 +71,34 @@ public class LegacyEntity : JsonObjectBase, ILegacyEntity {
 
     #region Member methods
 
+    /// <summary>
+    /// Returns an instance of <see cref="JToken"/> representing the value of the property with the specified
+    /// <paramref name="alias"/>. If a matching property isn't found, <see langword="null"/> is returned instead.
+    /// </summary>
+    /// <param name="alias">The alias of the property.</param>
+    /// <returns>An instance of <see cref="JToken"/> representing the property value.</returns>
+    public JToken? GetValue(string alias) {
+        if (_properties.TryGetValue(alias, out ILegacyProperty? property) && property.Value.Type != JTokenType.Null) {
+            return property.Value;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Returns the property with the specified <paramref name="alias"/>, or <see langword="null"/> if not found.
+    /// </summary>
+    /// <param name="alias">The alias of the property.</param>
+    /// <returns>An instance of <see cref="ILegacyProperty"/> representing the property, or <see langword="null"/> if not found.</returns>
+    public ILegacyProperty? GetProperty(string alias) {
+        return _properties.GetValueOrDefault(alias);
+    }
+
+    /// <summary>
+    /// Attempts to get the value of the property with the specified <paramref name="alias"/>.
+    /// </summary>
+    /// <param name="alias">The alias of the property.</param>
+    /// <param name="result">When this method returns, holds an instance of <see cref="JToken"/> representing the property value if successful; otherwise, <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
     public bool TryGetValue(string alias, [NotNullWhen(true)] out JToken? result) {
         if (_properties.TryGetValue(alias, out ILegacyProperty? property) && property.Value.Type != JTokenType.Null) {
             result = property.Value;
@@ -78,6 +106,16 @@ public class LegacyEntity : JsonObjectBase, ILegacyEntity {
         }
         result = null;
         return false;
+    }
+
+    /// <summary>
+    /// Attempts to get the property with the specified <paramref name="alias"/>.
+    /// </summary>
+    /// <param name="alias">The alias of the property.</param>
+    /// <param name="result">When this method returns, holds an instance of <see cref="ILegacyProperty"/> if successful; otherwise, <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> if successful; otherwise, <see langword="false"/>.</returns>
+    public bool TryGetProperty(string alias, [NotNullWhen(true)] out ILegacyProperty? result) {
+        return _properties.TryGetValue(alias, out result);
     }
 
     #endregion
