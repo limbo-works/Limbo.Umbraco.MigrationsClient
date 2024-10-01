@@ -65,6 +65,10 @@ public class MigrationsClient : IMigrationsClient {
         return HttpClient.GetMediaByKey(key, maxLevel).Body;
     }
 
+    public LegacyMedia GetMediaByPath(string path, int? maxLevel = null) {
+        return HttpClient.GetMediaByPath(path, maxLevel).Body;
+    }
+
     public IReadOnlyList<LegacyMember> GetAllMembers() {
         return HttpClient.GetAllMembers().Body;
     }

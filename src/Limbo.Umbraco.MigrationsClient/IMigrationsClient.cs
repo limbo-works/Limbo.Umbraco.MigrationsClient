@@ -46,6 +46,8 @@ public interface IMigrationsClient {
 
     LegacyMedia GetMediaByKey(Guid key, int? maxLevel = null);
 
+    LegacyMedia GetMediaByPath(string path, int? maxLevel = null);
+
     IReadOnlyList<LegacyMember> GetAllMembers();
 
     byte[] GetBytes(LegacyMedia media);

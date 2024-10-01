@@ -107,6 +107,21 @@ public class MigrationsHttpClient : HttpClient {
 
     }
 
+    public virtual IMigrationsResponse<LegacyMedia> GetMediaByPath(string path, int? maxLevel = null) {
+
+        HttpQueryString query = new() { { "path", path } };
+        if (maxLevel is not null) query.Add("maxLevel", maxLevel);
+
+        const string url = "/umbraco/Limbo/Migrations/GetMediaByPath";
+
+        try {
+            return new MigrationsResponse<LegacyMedia>(Get(url, query));
+        } catch (Exception ex) {
+            throw new Exception($"Failed getting media with path {path} -> {url}?{query}", ex);
+        }
+
+    }
+
     public IMigrationsResponse<IReadOnlyList<LegacyMember>> GetAllMembers() {
         return new MigrationsListResponse<LegacyMember>(Get("/umbraco/Limbo/Migrations/GetAllMembers"));
     }
