@@ -94,6 +94,15 @@ public class LegacyEntity : JsonObjectBase, ILegacyEntity {
     }
 
     /// <summary>
+    /// Returns whether a property with the specified <paramref name="alias"/> exists.
+    /// </summary>
+    /// <param name="alias">The alias of the property.</param>
+    /// <returns><see langword="true"/> if the property exists; otherwise, <see langword="false"/>.</returns>
+    public bool HasProperty(string alias) {
+        return _properties.ContainsKey(alias);
+    }
+
+    /// <summary>
     /// Attempts to get the value of the property with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The alias of the property.</param>
