@@ -13,7 +13,7 @@
   </tr>
   <tr>
     <td><strong>Target Framework:</strong></td>
-    <td>.NET 6 + .NET 7</td>
+    <td>.NET 6 + .NET 7 + .NET 8</td>
   </tr>
 </table>
 
@@ -30,14 +30,14 @@
 
 ### Installation
 
-Install via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient/1.0.7) - either via the .NET CLI:
+Install via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.MigrationsClient/1.0.8) - either via the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.MigrationsClient --version 1.0.7
+dotnet add package Limbo.Umbraco.MigrationsClient --version 1.0.8
 ```
 
 or the Nuget package manager:
 
 ```
-Install-Package Limbo.Umbraco.MigrationsClient -Version 1.0.7
+Install-Package Limbo.Umbraco.MigrationsClient -Version 1.0.8
 ```
