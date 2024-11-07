@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
+using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Elements;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
@@ -143,5 +145,134 @@ public static class LegacyElementExtensions {
     }
 
     #endregion
+
+    public static List<ILegacyContentItem> GetDescendants(this ILegacyContent content) {
+
+        List<ILegacyContentItem> descendants = [];
+
+        foreach (ILegacyContentItem child in content.Children) {
+            descendants.Add(child);
+            GetDescendants(child, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyContentItem> GetDescendants(this ILegacyContentItem content) {
+
+        List<ILegacyContentItem> descendants = [];
+
+        GetDescendants(content, descendants);
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyContentItem> GetDescendants(this IEnumerable<ILegacyContentItem> content) {
+
+        List<ILegacyContentItem> descendants = [];
+
+        foreach (ILegacyContentItem item in content) {
+            GetDescendants(item, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyContentItem> GetDescendantsAndSelf(this IEnumerable<ILegacyContentItem> content) {
+
+        List<ILegacyContentItem> descendants = [];
+
+        foreach (ILegacyContentItem item in content) {
+            descendants.Add(item);
+            GetDescendants(item, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyContentItem> GetDescendantsAndSelf(this ILegacyContent content) {
+
+        List<ILegacyContentItem> descendants = [content];
+
+        foreach (ILegacyContentItem child in content.Children) {
+            descendants.Add(child);
+            GetDescendants(child, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    private static void GetDescendants(ILegacyContentItem content, List<ILegacyContentItem> list) {
+
+        foreach (ILegacyContentItem child in content.Children) {
+            list.Add(child);
+            GetDescendants(child, list);
+        }
+
+    }
+
+
+    public static List<ILegacyMediaItem> GetDescendants(this ILegacyMedia media) {
+
+        List<ILegacyMediaItem> descendants = [];
+
+        foreach (ILegacyMediaItem child in media.Children) {
+            descendants.Add(child);
+            GetDescendants(child, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyMediaItem> GetDescendants(this ILegacyMediaItem media) {
+
+        List<ILegacyMediaItem> descendants = [];
+
+        GetDescendants(media, descendants);
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyMediaItem> GetDescendantsAndSelf(this IEnumerable<ILegacyMediaItem> content) {
+
+        List<ILegacyMediaItem> descendants = [];
+
+        foreach (ILegacyMediaItem item in content) {
+            descendants.Add(item);
+            GetDescendants(item, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    public static List<ILegacyMediaItem> GetDescendantsAndSelf(this ILegacyMedia media) {
+
+        List<ILegacyMediaItem> descendants = [media];
+
+        foreach (ILegacyMediaItem child in media.Children) {
+            descendants.Add(child);
+            GetDescendants(child, descendants);
+        }
+
+        return descendants;
+
+    }
+
+    private static void GetDescendants(ILegacyMediaItem media, List<ILegacyMediaItem> list) {
+
+        foreach (ILegacyMediaItem child in media.Children) {
+            list.Add(child);
+            GetDescendants(child, list);
+        }
+
+    }
 
 }
