@@ -29,8 +29,8 @@
 
   <!-- Include dependencies -->
   <ItemGroup>
-    <PackageReference Include="Skybrud.Essentials" Version="1.1.52" />
-    <PackageReference Include="Skybrud.Essentials.Http" Version="1.1.4" />
+    <PackageReference Include="Skybrud.Essentials" Version="1.1.57" />
+    <PackageReference Include="Skybrud.Essentials.Http" Version="1.2.0" />
   </ItemGroup>
 
   <!-- Include package icon and README for the NuGet -->
