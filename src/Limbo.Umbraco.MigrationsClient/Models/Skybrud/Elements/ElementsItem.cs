@@ -97,6 +97,20 @@ public class ElementsItem {
         };
     }
 
+    public bool? GetBooleanOrNull(string alias) {
+        if (!TryGetValue(alias, out JToken? value)) return null;
+        return value.Type switch {
+            JTokenType.Boolean => value.Value<bool>(),
+            JTokenType.Integer => value.Value<int>() switch {
+                0 => false,
+                1 => true,
+                _ => null
+            },
+            JTokenType.String => StringUtils.ParseBooleanOrNull(value.Value<string>()),
+            _ => null,
+        };
+    }
+
     public int GetInt32(string alias) {
         if (!TryGetValue(alias, out JToken? value)) return default;
         return value.Type switch {
@@ -105,6 +119,14 @@ public class ElementsItem {
             JTokenType.Float => value.ToObject<int>(),
             JTokenType.String => StringUtils.ParseInt32(value.Value<string>()),
             _ => default
+        };
+    }
+
+    public int? GetInt32OrNull(string propertyAlias) {
+        if (!TryGetProperty(propertyAlias, out ElementsProperty? property)) return null;
+        return property.Value.Type switch {
+            JTokenType.Integer => property.Value.Value<int>(),
+            _ => null
         };
     }
 
