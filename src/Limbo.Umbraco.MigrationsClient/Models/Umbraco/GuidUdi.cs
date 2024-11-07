@@ -28,6 +28,11 @@ public class GuidUdi {
 
     public Guid Guid { get; }
 
+    public GuidUdi(string entityType, string guid) {
+        EntityType = entityType;
+        Guid = new Guid(guid);
+    }
+
     public GuidUdi(string entityType, Guid guid) {
         EntityType = entityType;
         Guid = guid;
