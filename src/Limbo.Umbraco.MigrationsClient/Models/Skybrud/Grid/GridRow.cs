@@ -2,12 +2,11 @@
 using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
-public class GridRow : JsonObjectBase {
+public class GridRow : LegacyObjectBase {
 
     public GridSection Section { get; }
 

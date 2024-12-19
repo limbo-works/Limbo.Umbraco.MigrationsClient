@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.ImagePicker;
 
-public class ImagePickerList : JsonObjectBase {
+public class ImagePickerList : LegacyObjectBase {
 
     public string? Title { get; }
 

@@ -4,13 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Essentials.Time;
 
 namespace Limbo.Umbraco.MigrationsClient.Models;
 
-public class LegacyEntity : JsonObjectBase, ILegacyEntity {
+public class LegacyEntity : LegacyObjectBase, ILegacyEntity {
 
     private readonly Dictionary<string, ILegacyProperty> _properties;
 

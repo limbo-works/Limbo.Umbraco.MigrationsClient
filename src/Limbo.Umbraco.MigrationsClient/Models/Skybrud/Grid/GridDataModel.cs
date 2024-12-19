@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
-public class GridDataModel : JsonObjectBase {
+public class GridDataModel : LegacyObjectBase {
 
     /// <summary>
     /// Gets the name of the selected layout.

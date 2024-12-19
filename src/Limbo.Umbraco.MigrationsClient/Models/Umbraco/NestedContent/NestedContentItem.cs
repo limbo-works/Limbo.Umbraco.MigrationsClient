@@ -5,7 +5,7 @@ using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Umbraco.NestedContent;
 
-public class NestedContentItem {
+public class NestedContentItem : LegacyObjectBase {
 
     #region Properties
 
@@ -21,7 +21,7 @@ public class NestedContentItem {
 
     #region Constructors
 
-    public NestedContentItem(JObject json) {
+    public NestedContentItem(JObject json) : base(json) {
 
         Key = json.GetGuid("key");
         Name = json.GetString("name")!;

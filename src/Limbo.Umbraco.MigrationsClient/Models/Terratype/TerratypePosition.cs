@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Strings.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Terratype;
@@ -11,7 +10,7 @@ namespace Limbo.Umbraco.MigrationsClient.Models.Terratype;
 /// <see>
 ///     <cref>https://github.com/Joniff/Terratype</cref>
 /// </see>
-public class TerratypePosition : JsonObjectBase {
+public class TerratypePosition : LegacyObjectBase {
 
     public string Id { get; }
 

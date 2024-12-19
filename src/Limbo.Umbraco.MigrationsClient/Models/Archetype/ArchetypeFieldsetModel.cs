@@ -6,7 +6,7 @@ using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Archetype;
 
-public class ArchetypeFieldsetModel {
+public class ArchetypeFieldsetModel : LegacyObjectBase {
 
     public string Alias { get; }
 
@@ -16,7 +16,7 @@ public class ArchetypeFieldsetModel {
 
     public IReadOnlyList<ArchetypePropertyModel> Properties { get; }
 
-    private ArchetypeFieldsetModel(JObject json) {
+    private ArchetypeFieldsetModel(JObject json) : base(json) {
 
         Alias = json.GetString("alias")!;
         Id = json.GetGuid("id");
@@ -36,7 +36,7 @@ public class ArchetypeFieldsetModel {
 
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static ArchetypeFieldsetModel? Parse(JObject? json) {
         return json is null ? null : new ArchetypeFieldsetModel(json);
     }

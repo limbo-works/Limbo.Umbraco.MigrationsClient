@@ -2,12 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using Limbo.Umbraco.MigrationsClient.Exceptions;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Redirects;
 
-public class RedirectDestination : JsonObjectBase {
+public class RedirectDestination : LegacyObjectBase {
 
     public int Id { get; }
 

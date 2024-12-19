@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
-using Skybrud.Essentials.Json.Newtonsoft;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.VideoPicker;
 
-public class VideoPickerItem : JsonObjectBase {
+public class VideoPickerItem : LegacyObjectBase {
 
     public string? Title { get; }
 
@@ -28,7 +27,7 @@ public class VideoPickerItem : JsonObjectBase {
         ThumbnailId = json.GetInt32("thumbnailId");
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static VideoPickerItem? Parse(JObject? json) {
         return json is null ? null : new VideoPickerItem(json);
     }

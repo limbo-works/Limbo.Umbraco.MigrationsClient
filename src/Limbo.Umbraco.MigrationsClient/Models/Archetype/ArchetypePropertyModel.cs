@@ -4,18 +4,18 @@ using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Archetype;
 
-public class ArchetypePropertyModel {
+public class ArchetypePropertyModel : LegacyObjectBase {
 
     public string Alias { get; }
 
     public JToken? Value { get; }
 
-    private ArchetypePropertyModel(JObject json) {
+    private ArchetypePropertyModel(JObject json) : base(json) {
         Alias = json.GetString("alias")!;
         Value = json.GetValue("value");
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static ArchetypePropertyModel? Parse(JObject? json) {
         return json is null ? null : new ArchetypePropertyModel(json);
     }

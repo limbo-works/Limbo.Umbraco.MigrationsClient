@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
 
-public class LegacyPropertyType : JsonObjectBase {
+public class LegacyPropertyType : LegacyObjectBase {
 
     #region Properties
 

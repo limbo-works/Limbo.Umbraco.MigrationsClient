@@ -4,7 +4,7 @@ using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Umbraco;
 
-public class MultiUrlPickerItem {
+public class MultiUrlPickerItem : LegacyObjectBase {
 
     public string Name { get; }
 

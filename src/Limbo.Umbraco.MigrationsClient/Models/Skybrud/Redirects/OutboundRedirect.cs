@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Redirects;
@@ -7,7 +6,7 @@ namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Redirects;
 /// <summary>
 /// Class representing the model for an outbound redirect in our <strong>Skybrud.Umbraco.Redirects</strong> package.
 /// </summary>
-public class OutboundRedirect : JsonObjectBase {
+public class OutboundRedirect : LegacyObjectBase {
 
     /// <summary>
     /// Gets whether the redirect is permanent.

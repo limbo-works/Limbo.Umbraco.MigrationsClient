@@ -1,11 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
-public class GridControl : JsonObjectBase {
+public class GridControl : LegacyObjectBase {
 
     public GridDataModel Model => Section.Model;
 
