@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
@@ -9,6 +10,7 @@ using Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 using Newtonsoft.Json.Linq;
+using Skybrud.Essentials.Collections.Extensions;
 using Skybrud.Essentials.Strings;
 
 namespace Limbo.Umbraco.MigrationsClient.Models;
@@ -54,6 +56,25 @@ public static class LegacyElementExtensions {
     public static T? GetString<T>(this ILegacyElement content, string propertyAlias, Func<string, T> callback) {
         if (!content.TryGetProperty(propertyAlias, out var property)) return default;
         return property.Value.Type == JTokenType.Null ? default : callback(property.Value.ToString());
+    }
+
+    public static string[] GetStringArray(this ILegacyElement content, string propertyAlias) {
+
+        if (!content.TryGetProperty(propertyAlias, out ILegacyProperty? property)) return [];
+
+        switch (property.Value.Type) {
+
+            case JTokenType.Array:
+                return property.Value.Value<JArray>().SelectArray(x => x.ToString());
+
+            case JTokenType.String:
+                return StringUtils.ParseStringArray(property.Value.Value<string>());
+
+            default:
+                return [];
+
+        }
+
     }
 
     public static GuidUdi? GetGuidUdi(this ILegacyElement content, string propertyAlias) {

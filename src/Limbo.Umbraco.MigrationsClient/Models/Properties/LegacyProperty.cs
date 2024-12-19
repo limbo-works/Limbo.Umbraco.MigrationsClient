@@ -24,7 +24,7 @@ public class LegacyProperty : ILegacyProperty, IJsonParsable<LegacyProperty> {
 
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static LegacyProperty? Parse(JObject? json) {
         return json is null ? null : new LegacyProperty(json);
     }

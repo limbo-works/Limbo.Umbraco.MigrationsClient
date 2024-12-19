@@ -14,6 +14,8 @@ namespace Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 
 public class SkybrudElementsParser {
 
+    public static readonly SkybrudElementsParser DefaultParser = new();
+
     public virtual ElementsModel? ParseElements(JArray array, ILegacyElement? content, ILegacyProperty? property) {
 
         List<ElementsItem> temp = [];

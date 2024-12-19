@@ -8,17 +8,20 @@ public class MultiUrlPickerItem : LegacyObjectBase {
 
     public string Name { get; }
 
-    public string? Udi { get; }
+    public GuidUdi? Udi { get; }
 
     public string? Target { get; }
 
     public string? Url { get; }
 
-    private MultiUrlPickerItem(JObject json) {
+    public string? QueryString { get; }
+
+    private MultiUrlPickerItem(JObject json) : base(json) {
         Name = json.GetString("name")!;
-        Udi = json.GetString("udi");
+        Udi = json.GetString("udi", GuidUdi.Parse);
         Target = json.GetString("target");
         Url = json.GetString("url");
+        QueryString = json.GetString("queryString");
     }
 
     [return: NotNullIfNotNull(nameof(json))]

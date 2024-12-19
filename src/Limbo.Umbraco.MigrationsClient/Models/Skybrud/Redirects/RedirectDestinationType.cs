@@ -3,7 +3,7 @@ using Skybrud.Essentials.Json.Newtonsoft.Converters.Enums;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Redirects;
 
-[JsonConverter(typeof(EnumStringConverter))]
+[JsonConverter(typeof(EnumLowerCaseConverter))]
 public enum RedirectDestinationType {
 
     Url,
