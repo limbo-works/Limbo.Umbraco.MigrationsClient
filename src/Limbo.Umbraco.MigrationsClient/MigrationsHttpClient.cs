@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
+using Limbo.Umbraco.MigrationsClient.Models.DataTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Members;
 using Limbo.Umbraco.MigrationsClient.Responses;
@@ -27,6 +28,34 @@ public class MigrationsHttpClient : HttpClient {
     }
 
     #region Public member methods
+
+    /// <summary>
+    /// Returns a list of all data types.
+    /// </summary>
+    /// <returns>A list of <see cref="LegacyDataType"/>.</returns>
+    public IMigrationsResponse<IReadOnlyList<LegacyDataType>> GetDataTypes() {
+        return new MigrationsListResponse<LegacyDataType>(Get("/umbraco/Limbo/Migrations/GetDataTypes"));
+    }
+
+    /// <summary>
+    /// Returns the data type with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="id">The ID of the data type.</param>
+    /// <returns>An instance of <see cref="LegacyDataType"/>.</returns>
+    public IMigrationsResponse<LegacyDataType> GetDataTypeById(int id) {
+        HttpQueryString query = new() { { "id", id } };
+        return new MigrationsResponse<LegacyDataType>(Get("/umbraco/Limbo/Migrations/GetDataTypeById", query));
+    }
+
+    /// <summary>
+    /// Returns the data type with the specified <paramref name="key"/>.
+    /// </summary>
+    /// <param name="key">The key of the data type.</param>
+    /// <returns>An instance of <see cref="LegacyDataType"/>.</returns>
+    public IMigrationsResponse<LegacyDataType> GetDataTypeByKey(Guid key) {
+        HttpQueryString query = new() { { "key", key } };
+        return new MigrationsResponse<LegacyDataType>(Get("/umbraco/Limbo/Migrations/GetDataTypeByKey", query));
+    }
 
     public virtual IMigrationsResponse<LegacyContentType> GetContentTypeById(int id) {
         HttpQueryString query = new() { { "id", id } };

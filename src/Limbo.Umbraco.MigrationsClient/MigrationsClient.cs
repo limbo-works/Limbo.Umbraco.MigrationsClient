@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
+using Limbo.Umbraco.MigrationsClient.Models.DataTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Members;
 
@@ -20,6 +21,32 @@ public class MigrationsClient : IMigrationsClient {
     }
 
     #region Public member methods
+
+    /// <summary>
+    /// Returns a list of all data types.
+    /// </summary>
+    /// <returns>A list of <see cref="LegacyDataType"/>.</returns>
+    public IReadOnlyList<LegacyDataType> GetDataTypes() {
+        return HttpClient.GetDataTypes().Body;
+    }
+
+    /// <summary>
+    /// Returns the data type with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="id">The ID of the data type.</param>
+    /// <returns>An instance of <see cref="LegacyDataType"/>.</returns>
+    public LegacyDataType GetDataTypeById(int id) {
+        return HttpClient.GetDataTypeById(id).Body;
+    }
+
+    /// <summary>
+    /// Returns the data type with the specified <paramref name="key"/>.
+    /// </summary>
+    /// <param name="key">The key of the data type.</param>
+    /// <returns>An instance of <see cref="LegacyDataType"/>.</returns>
+    public LegacyDataType GetDataTypeByKey(Guid key) {
+        return HttpClient.GetDataTypeByKey(key).Body;
+    }
 
     public virtual LegacyContentType GetContentTypeById(int id) {
         return HttpClient.GetContentTypeById(id).Body;

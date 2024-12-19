@@ -2,12 +2,33 @@
 using System.Collections.Generic;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
+using Limbo.Umbraco.MigrationsClient.Models.DataTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Members;
 
 namespace Limbo.Umbraco.MigrationsClient;
 
 public interface IMigrationsClient {
+
+    /// <summary>
+    /// Returns a list of all data types.
+    /// </summary>
+    /// <returns>A list of <see cref="LegacyDataType"/>.</returns>
+    IReadOnlyList<LegacyDataType> GetDataTypes();
+
+    /// <summary>
+    /// Returns the data type with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="id">The ID of the data type.</param>
+    /// <returns>An instance of <see cref="LegacyDataType"/>.</returns>
+    LegacyDataType GetDataTypeById(int id);
+
+    /// <summary>
+    /// Returns the data type with the specified <paramref name="key"/>.
+    /// </summary>
+    /// <param name="key">The key of the data type.</param>
+    /// <returns>An instance of <see cref="LegacyDataType"/>.</returns>
+    LegacyDataType GetDataTypeByKey(Guid key);
 
     /// <summary>
     /// Returns the content type with the specified <paramref name="id"/>.
