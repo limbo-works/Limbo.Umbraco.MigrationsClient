@@ -57,4 +57,24 @@ public class GuidUdiList : List<GuidUdi> {
 
     }
 
+    public static bool TryParse(string? input, out GuidUdiList? result) {
+
+        if (string.IsNullOrWhiteSpace(input)) {
+            result = null;
+            return false;
+        }
+
+        GuidUdiList udis = [];
+
+        foreach (string piece in input.Split(',')) {
+            if (GuidUdi.TryParse(piece, out GuidUdi? udi)) {
+                udis.Add(udi);
+            }
+        }
+
+        result = udis;
+        return true;
+
+    }
+
 }

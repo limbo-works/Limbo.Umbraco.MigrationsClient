@@ -76,4 +76,34 @@ public class GuidUdi {
 
     }
 
+    protected bool Equals(GuidUdi other) {
+        return EntityType == other.EntityType && Guid.Equals(other.Guid);
+    }
+
+    public override bool Equals(object? obj) {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((GuidUdi) obj);
+    }
+
+    public override int GetHashCode() {
+        return HashCode.Combine(EntityType, Guid);
+    }
+
+    public static bool operator ==(GuidUdi? d1, GuidUdi? d2) {
+
+        // Check for NULL conditions
+        if (d1 is null) return d2 is null;
+        if (d2 is null) return false;
+
+        // Pass the comparison on the == operator of DateTime
+        return d1.ToString() == d2.ToString();
+
+    }
+
+    public static bool operator !=(GuidUdi? d1, GuidUdi? d2) {
+        return !(d1 == d2);
+    }
+
 }
