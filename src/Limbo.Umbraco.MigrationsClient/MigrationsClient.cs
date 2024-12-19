@@ -48,6 +48,14 @@ public class MigrationsClient : IMigrationsClient {
         return HttpClient.GetDataTypeByKey(key).Body;
     }
 
+    /// <summary>
+    /// Returns a list of all content types.
+    /// </summary>
+    /// <returns>A list of <see cref="LegacyContentType"/>.</returns>
+    public IReadOnlyList<LegacyContentType> GetContentTypes() {
+        return HttpClient.GetContentTypes().Body;
+    }
+
     public virtual LegacyContentType GetContentTypeById(int id) {
         return HttpClient.GetContentTypeById(id).Body;
     }

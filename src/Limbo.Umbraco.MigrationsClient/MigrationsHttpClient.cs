@@ -57,6 +57,10 @@ public class MigrationsHttpClient : HttpClient {
         return new MigrationsResponse<LegacyDataType>(Get("/umbraco/Limbo/Migrations/GetDataTypeByKey", query));
     }
 
+    public virtual IMigrationsResponse<IReadOnlyList<LegacyContentType>> GetContentTypes() {
+        return new MigrationsListResponse<LegacyContentType>(Get("/umbraco/Limbo/Migrations/GetContentTypes"));
+    }
+
     public virtual IMigrationsResponse<LegacyContentType> GetContentTypeById(int id) {
         HttpQueryString query = new() { { "id", id } };
         return new MigrationsResponse<LegacyContentType>(Get("/umbraco/Limbo/Migrations/GetContentTypeById", query));

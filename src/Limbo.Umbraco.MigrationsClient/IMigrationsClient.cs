@@ -31,6 +31,12 @@ public interface IMigrationsClient {
     LegacyDataType GetDataTypeByKey(Guid key);
 
     /// <summary>
+    /// Returns a list of all content types.
+    /// </summary>
+    /// <returns>A list of <see cref="LegacyContentType"/>.</returns>
+    IReadOnlyList<LegacyContentType> GetContentTypes();
+
+    /// <summary>
     /// Returns the content type with the specified <paramref name="id"/>.
     /// </summary>
     /// <param name="id">The ID of the content type.</param>
