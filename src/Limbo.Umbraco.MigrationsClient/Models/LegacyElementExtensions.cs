@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
@@ -16,9 +15,6 @@ using Skybrud.Essentials.Strings;
 namespace Limbo.Umbraco.MigrationsClient.Models;
 
 public static class LegacyElementExtensions {
-
-    private static SkybrudElementsParser? _elementsParser;
-    private static SkybrudGridDataParser? _gridDataParser;
 
     public static bool GetBoolean(this ILegacyElement content, string propertyAlias) {
         if (!content.TryGetProperty(propertyAlias, out var property)) return false;
@@ -131,11 +127,6 @@ public static class LegacyElementExtensions {
 
     #region Skybrud
 
-    public static GridDataModel? GetGridData(this ILegacyElement content, string propertyAlias) {
-        _gridDataParser = new SkybrudGridDataParser();
-        return GetGridData(content, propertyAlias, _gridDataParser);
-    }
-
     public static GridDataModel? GetGridData(this ILegacyElement content, string propertyAlias, SkybrudGridDataParser parser) {
         if (!content.TryGetProperty(propertyAlias, out ILegacyProperty? property)) return null;
         return property.Value switch {
@@ -150,11 +141,6 @@ public static class LegacyElementExtensions {
             JObject obj => LinkPickerItem.Parse(obj),
             _ => null
         };
-    }
-
-    public static ElementsModel? GetElements(this ILegacyElement content, string propertyAlias) {
-        _elementsParser ??= new SkybrudElementsParser();
-        return GetElements(content, propertyAlias, _elementsParser);
     }
 
     public static ElementsModel? GetElements(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
