@@ -91,6 +91,22 @@ public class GuidUdi {
         return HashCode.Combine(EntityType, Guid);
     }
 
+    public static GuidUdi CreateContent(Guid key) {
+        return CreateDocument(key);
+    }
+
+    public static GuidUdi CreateDocument(Guid key) {
+        return new GuidUdi("document", key);
+    }
+
+    public static GuidUdi CreateMedia(Guid key) {
+        return new GuidUdi("media", key);
+    }
+
+    public static GuidUdi CreateUser(Guid key) {
+        return new GuidUdi("user", key);
+    }
+
     public static bool operator ==(GuidUdi? d1, GuidUdi? d2) {
 
         // Check for NULL conditions
