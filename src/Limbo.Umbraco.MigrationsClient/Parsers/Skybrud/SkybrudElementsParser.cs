@@ -28,14 +28,41 @@ public class SkybrudElementsParser {
 
     }
 
+    public virtual ElementsModel? ParseElements(GridControl control, ILegacyElement? content, ILegacyProperty? property) {
+
+        if (control.Value is not JArray array) return null;
+
+        List<ElementsItem> temp = [];
+
+        foreach (JObject obj in array.OfType<JObject>()) {
+            if (ParseElement(obj, content, property) is { } item) temp.Add(item);
+        }
+
+        return temp.Count > 0 ? new ElementsModel(temp) : null;
+
+    }
+
     public virtual ElementsItem? ParseElement(GridControl control, ILegacyElement? owner, ILegacyProperty? property) {
         return control.Value is JArray array ? ParseElement(array, owner, property) : null;
-	}
+    }
+
+    public virtual bool TryParseElement(GridControl control, [NotNullWhen(true)] out ElementsItem? result) {
+        return TryParseElement(control, null, null, out result);
+    }
 
     public virtual bool TryParseElement(GridControl control, ILegacyElement? owner, ILegacyProperty? property, [NotNullWhen(true)] out ElementsItem? result) {
         result = ParseElement(control, owner, property);
         return result is not null;
-	}
+    }
+
+    public virtual bool TryParseElements(GridControl control, [NotNullWhen(true)] out ElementsModel? result) {
+        return TryParseElements(control, null, null, out result);
+    }
+
+    public virtual bool TryParseElements(GridControl control, ILegacyElement? owner, ILegacyProperty? property, [NotNullWhen(true)] out ElementsModel? result) {
+        result = ParseElements(control, owner, property);
+        return result is not null;
+    }
 
     public virtual ElementsItem? ParseElement(JArray array, ILegacyElement? content, ILegacyProperty? property) {
 
