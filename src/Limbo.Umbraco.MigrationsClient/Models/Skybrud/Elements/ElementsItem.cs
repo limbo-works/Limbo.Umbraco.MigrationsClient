@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Limbo.Umbraco.MigrationsClient.Exceptions;
+using Limbo.Umbraco.MigrationsClient.Models.Content;
+using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Strings;
 using Skybrud.Essentials.Strings.Extensions;
 
@@ -10,16 +14,25 @@ namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Elements;
 
 public class ElementsItem {
 
+    [JsonProperty(Order = -999)]
     public Guid Key { get; }
 
+    [JsonProperty(Order = -998)]
     public Guid ContentType { get; }
 
+    [JsonProperty(Order = 999)]
     public IReadOnlyDictionary<string, ElementsProperty> Properties { get; }
 
     public ElementsItem(Guid key, Guid contentType, IReadOnlyDictionary<string, ElementsProperty> properties) {
         Key = key;
         ContentType = contentType;
         Properties = properties;
+    }
+
+    public ElementsItem(ElementsItem item) {
+        Key = item.Key;
+        ContentType = item.ContentType;
+        Properties = item.Properties;
     }
 
     /// <summary>
@@ -112,13 +125,24 @@ public class ElementsItem {
     }
 
     public int GetInt32(string alias) {
-        if (!TryGetValue(alias, out JToken? value)) return default;
+        if (!TryGetValue(alias, out JToken? value)) return 0;
         return value.Type switch {
             JTokenType.Boolean => value.ToObject<bool>() ? 1 : 0,
             JTokenType.Integer => value.ToObject<int>(),
             JTokenType.Float => value.ToObject<int>(),
             JTokenType.String => StringUtils.ParseInt32(value.Value<string>()),
-            _ => default
+            _ => 0
+        };
+    }
+
+    public int? GetInt32Null(string alias) {
+        if (!TryGetValue(alias, out JToken? value)) return null;
+        return value.Type switch {
+            JTokenType.Boolean => value.ToObject<bool>() ? 1 : 0,
+            JTokenType.Integer => value.ToObject<int>(),
+            JTokenType.Float => value.ToObject<int>(),
+            JTokenType.String => StringUtils.ParseInt32OrNull(value.Value<string>()),
+            _ => null
         };
     }
 
@@ -132,6 +156,14 @@ public class ElementsItem {
 
     public string? GetString(string alias) {
         return !TryGetValue(alias, out JToken? value) ? null : string.Format(CultureInfo.InvariantCulture, "{0}", value);
+    }
+
+    public Guid GetGuid(string alias) {
+        return Guid.TryParse(GetString(alias), out Guid result) ? result : Guid.Empty;
+    }
+
+    public Guid? GetGuidOrNull(string alias) {
+        return Guid.TryParse(GetString(alias), out Guid result) ? result : null;
     }
 
     public T? GetString<T>(string alias, Func<string, T> callback) {
@@ -162,6 +194,30 @@ public class ElementsItem {
             JTokenType.Integer => result.Value<int>(),
             _ => null
         };
+    }
+
+    public ElementsModel? GetElements(string propertyName, ILegacyElement owner, SkybrudElementsParser parser) {
+        return GetArray(propertyName) is not { } array ? null : parser.ParseElements(array, owner, null);
+    }
+
+    public IReadOnlyList<ElementsItem> GetElementItems(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) {
+        return GetArray(propertyName) is not { } array ? [] : parser.ParseElements(array, owner, null)?.Items ?? [];
+    }
+
+    public IReadOnlyList<T> GetElementItems<T>(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) where T : ElementsItem {
+
+        IReadOnlyList<ElementsItem> source = GetElementItems(propertyName, owner, parser);
+
+        if (source.Count == 0) return [];
+
+        List<T> temp = [];
+        foreach (ElementsItem item in source) {
+            if (item is not T t) throw new MigrationsParseExcetion($"An item is not of expected type '{typeof(T)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
+            temp.Add(t);
+        }
+
+        return temp;
+
     }
 
 }
