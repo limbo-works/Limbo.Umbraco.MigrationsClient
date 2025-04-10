@@ -27,11 +27,11 @@ public static class LegacyElementExtensions {
     }
 
     public static int GetInt32(this ILegacyElement content, string propertyAlias) {
-        if (!content.TryGetProperty(propertyAlias, out var property)) return default;
+        if (!content.TryGetProperty(propertyAlias, out var property)) return 0;
         return property.Value.Type switch {
             JTokenType.Integer => property.Value.Value<int>(),
             JTokenType.String => StringUtils.ParseInt32(property.Value.ToString()),
-            _ => default
+            _ => 0
         };
     }
 
