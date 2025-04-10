@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -8,7 +8,9 @@ using System.Linq;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Users;
 
-public class LegacyUserList : ReadOnlyCollection<LegacyUser> {
+public class LegacyUserList : IReadOnlyList<LegacyUser> {
+
+    private readonly IReadOnlyList<LegacyUser> _list;
 
     private static LegacyUserList? _empty;
 
@@ -19,9 +21,17 @@ public class LegacyUserList : ReadOnlyCollection<LegacyUser> {
 
     public static new LegacyUserList Empty => _empty ??= [];
 
-    public LegacyUserList() : base([]) { }
+    public int Count => _list.Count;
 
-    public LegacyUserList(IList<LegacyUser> list) : base(list) { }
+    public LegacyUser this[int index] => _list[index];
+
+    public LegacyUserList() {
+        _list = [];
+    }
+
+    public LegacyUserList(IReadOnlyList<LegacyUser> list) {
+        _list = list;
+    }
 
     public bool TryGet(int id, [NotNullWhen(true)] out LegacyUser? result) {
         _byId ??= this.ToDictionary(x => x.Id);
@@ -35,8 +45,16 @@ public class LegacyUserList : ReadOnlyCollection<LegacyUser> {
 
     public bool TryGet(string value, [NotNullWhen(true)] out LegacyUser? result) {
         _byEmail ??= this.ToDictionary(x => x.Email);
-        _byLogin ??= this.ToDictionary(x => x.Login);
+        _byLogin ??= this.ToDictionary(x => x.Username);
         return _byEmail.TryGetValue(value, out result) || _byLogin.TryGetValue(value, out result);
+    }
+
+    public IEnumerator<LegacyUser> GetEnumerator() {
+        return _list.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() {
+        return GetEnumerator();
     }
 
 }

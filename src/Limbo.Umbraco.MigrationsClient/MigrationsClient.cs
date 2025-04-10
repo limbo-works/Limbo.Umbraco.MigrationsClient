@@ -6,6 +6,7 @@ using Limbo.Umbraco.MigrationsClient.Models.DataTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Members;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.Grid;
+using Limbo.Umbraco.MigrationsClient.Models.Users;
 
 namespace Limbo.Umbraco.MigrationsClient;
 
@@ -115,6 +116,10 @@ public class MigrationsClient : IMigrationsClient {
 
     public virtual void DownloadBytes(LegacyMedia media, string path) {
         HttpClient.DownloadBytes(media, path);
+    }
+
+    public IReadOnlyList<LegacyUser> GetAllUsers() {
+        return HttpClient.GetAllUsers().Body;
     }
 
     public IReadOnlyList<LegacyGridEditor> GetGridEditors() {

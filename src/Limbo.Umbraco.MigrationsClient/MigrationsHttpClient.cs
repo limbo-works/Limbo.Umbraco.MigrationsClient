@@ -7,6 +7,7 @@ using Limbo.Umbraco.MigrationsClient.Models.DataTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Members;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.Grid;
+using Limbo.Umbraco.MigrationsClient.Models.Users;
 using Limbo.Umbraco.MigrationsClient.Responses;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;
@@ -179,6 +180,11 @@ public class MigrationsHttpClient : HttpClient {
         string dir = Path.GetDirectoryName(path)!;
         if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
         File.WriteAllBytes(path, GetBytes(media));
+    }
+
+
+    public IMigrationsResponse<IReadOnlyList<LegacyUser>> GetAllUsers() {
+        return new MigrationsListResponse<LegacyUser>(Get("/api/limbo/migrations/users"));
     }
 
     public IMigrationsResponse<IReadOnlyList<LegacyGridEditor>> GetGridEditors() {
