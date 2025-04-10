@@ -6,13 +6,17 @@ using Newtonsoft.Json.Linq;
 
 namespace Limbo.Umbraco.MigrationsClient.Models;
 
-public interface ILegacyElement {
+public interface ILegacyElementItem {
 
     Guid Key { get; }
 
     string Name { get; }
 
     string ContentTypeAlias { get; }
+
+}
+
+public interface ILegacyElement : ILegacyElementItem {
 
     IReadOnlyList<ILegacyProperty> Properties { get; }
 
