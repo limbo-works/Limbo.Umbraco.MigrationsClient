@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
@@ -6,25 +7,31 @@ namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
 public class GridControl : LegacyObjectBase {
 
+    [JsonIgnore]
     public GridDataModel Model => Section.Model;
 
+    [JsonIgnore]
     public GridSection Section => Row.Section;
 
+    [JsonIgnore]
     public GridRow Row => Area.Row;
 
+    [JsonIgnore]
     public GridArea Area { get; }
 
     public JToken Value { get; internal set; }
 
     public GridEditor Editor { get; internal set; }
 
+    [JsonIgnore]
     public GridControl? PreviousControl { get; internal set; }
 
+    [JsonIgnore]
     public GridControl? NextControl { get; internal set; }
 
-    internal GridControl(JObject json, GridArea area, GridEditor editor) : base(json) {
+    internal GridControl(JObject json, JToken value, GridArea area, GridEditor editor) : base(json) {
+        Value = value;
         Area = area;
-        Value = json.GetValue("value");
         Editor = editor;
     }
 
@@ -48,6 +55,18 @@ public class GridControl : LegacyObjectBase {
 
     public T? GetString<T>(string propertyName, Func<string, T> callback) {
         return (Value as JObject).GetString(propertyName, callback);
+    }
+
+    public JArray? GetArray(string propertyName) {
+        return (Value as JObject).GetArray(propertyName);
+    }
+
+    public JObject? GetObject(string propertyName) {
+        return (Value as JObject).GetObject(propertyName);
+    }
+
+    public TResult? GetObject<TResult>(string propertyName, Func<JObject, TResult> callback) {
+        return (Value as JObject).GetObject(propertyName) is {} json ? callback(json) : default;
     }
 
 }

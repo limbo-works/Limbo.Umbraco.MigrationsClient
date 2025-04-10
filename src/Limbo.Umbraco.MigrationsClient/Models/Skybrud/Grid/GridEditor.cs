@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
 public class GridEditor : LegacyObjectBase {
 
     public string? Name { get; }
+
+    public string? NameTemplate { get; }
 
     public string Alias { get; }
 
@@ -17,13 +18,14 @@ public class GridEditor : LegacyObjectBase {
 
     public JToken Config { get; internal set; }
 
-    public GridEditor(JObject json) : base(json) {
-        Name = json.GetString("name")!;
-        Alias = json.GetString("alias")!;
-        View = json.GetString("view")!;
-        Render = json.GetString("render");
-        Icon = json.GetString("icon")!;
-        Config = json.GetValue("config");
+    public GridEditor(JObject json, string? name, string? nameTemplate, string alias, string? view, string? render, string? icon, JToken config) : base(json) {
+        Name = name;
+        NameTemplate = nameTemplate;
+        Alias = alias;
+        View = view;
+        Render = render;
+        Icon = icon;
+        Config = config;
     }
 
     public GridEditor(GridEditor editor) : base(editor.JObject) {

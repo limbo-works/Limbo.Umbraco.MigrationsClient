@@ -1,50 +1,48 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
 public class GridRow : LegacyObjectBase {
 
+    [JsonIgnore]
     public GridSection Section { get; }
 
     public string Id { get; }
 
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? Label { get; }
 
+    [JsonIgnore]
     public bool HasLabel => string.IsNullOrWhiteSpace(Label) == false;
 
     public string Name { get; }
 
     public IReadOnlyList<GridArea> Areas { get; }
 
+    [JsonIgnore]
     public GridRow? PreviousRow { get; internal set; }
 
+    [JsonIgnore]
     public GridRow? NextRow { get; internal set; }
 
+    [JsonIgnore]
     public bool HasAreas => Areas.Count > 0;
 
+    [JsonIgnore]
     public GridArea? FirstArea => Areas.FirstOrDefault();
 
+    [JsonIgnore]
     public GridArea? LastArea => Areas.LastOrDefault();
 
-    public GridRow(JObject json, GridSection section, SkybrudGridDataParser parser) : base(json) {
-
+    public GridRow(JObject json, string id, string? label, string name, IReadOnlyList<GridArea> areas, GridSection section) : base(json) {
+        Id = id;
+        Label = label;
+        Name = name;
+        Areas = areas;
         Section = section;
-        Id = json.GetString("id")!;
-        Label = json.GetString("label");
-        Name = json.GetString("name")!;
-
-        Areas = json.GetArray("areas", x => parser.ParseGridArea(x, this)) ?? [];
-
-        // Update "PreviousArea" and "NextArea" properties
-        for (int i = 1; i < Areas.Count; i++) {
-            Areas[i - 1].NextArea = Areas[i];
-            Areas[i].PreviousArea = Areas[i - 1];
-        }
-
     }
 
 }

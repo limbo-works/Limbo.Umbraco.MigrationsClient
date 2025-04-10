@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 
@@ -10,6 +9,7 @@ public class GridSection : LegacyObjectBase {
 
     public string Name { get; }
 
+    [JsonIgnore]
     public GridDataModel Model { get; }
 
     public int Grid { get; }
@@ -18,23 +18,17 @@ public class GridSection : LegacyObjectBase {
 
     public bool HasRows => Rows.Count > 0;
 
+    [JsonIgnore]
     public GridRow? FirstRow => Rows.FirstOrDefault();
 
+    [JsonIgnore]
     public GridRow? LastRow => Rows.LastOrDefault();
 
-    public GridSection(JObject json, GridDataModel grid, SkybrudGridDataParser parser) : base(json) {
-
-        Model = grid;
-        Grid = json.GetInt32("grid");
-        Name = grid.Name;
-        Rows = json.GetArray("rows", x => parser.ParseGridRow(x, this)) ?? [];
-
-        // Update "PreviousRow" and "NextRow" properties
-        for (int i = 1; i < Rows.Count; i++) {
-            Rows[i - 1].NextRow = Rows[i];
-            Rows[i].PreviousRow = Rows[i - 1];
-        }
-
+    public GridSection(JObject json, int grid, string name, List<GridRow> rows, GridDataModel model) : base(json) {
+        Grid = grid;
+        Name = name;
+        Rows = rows;
+        Model = model;
     }
 
 }
