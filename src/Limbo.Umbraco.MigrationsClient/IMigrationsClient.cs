@@ -5,6 +5,7 @@ using Limbo.Umbraco.MigrationsClient.Models.ContentTypes;
 using Limbo.Umbraco.MigrationsClient.Models.DataTypes;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Members;
+using Limbo.Umbraco.MigrationsClient.Models.Umbraco.Grid;
 
 namespace Limbo.Umbraco.MigrationsClient;
 
@@ -80,5 +81,7 @@ public interface IMigrationsClient {
     byte[] GetBytes(LegacyMedia media);
 
     void DownloadBytes(LegacyMedia media, string path);
+
+    IReadOnlyList<LegacyGridEditor> GetGridEditors();
 
 }
