@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
@@ -143,12 +144,24 @@ public static class LegacyElementExtensions {
         };
     }
 
+    public static ElementsItem? GetElement(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
+        return GetElements(content, propertyAlias, parser)?.FirstOrDefault();
+    }
+
+    public static T? GetElement<T>(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) where T : ElementsItem {
+        return GetElements(content, propertyAlias, parser)?.Cast<T>()?.FirstOrDefault();
+    }
+
     public static ElementsModel? GetElements(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
         if (!content.TryGetProperty(propertyAlias, out ILegacyProperty? property)) return null;
         return property.Value switch {
             JArray array => parser.ParseElements(array, content, property),
             _ => null
         };
+    }
+
+    public static IReadOnlyList<T> GetElements<T>(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) where T : ElementsItem {
+        return GetElements(content, propertyAlias, parser)?.Cast<T>()?.ToList() ?? [];
     }
 
     #endregion
