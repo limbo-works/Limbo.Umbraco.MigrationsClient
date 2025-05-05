@@ -21,6 +21,8 @@ public class LegacyContentType : LegacyObjectBase, IJsonParsable<LegacyContentTy
 
     public string Icon { get; }
 
+    public bool IsElement { get; }
+
     public IReadOnlyList<LegacyPropertyGroup> Tabs { get; }
 
     public IReadOnlyList<LegacyPropertyType> Properties { get; }
@@ -35,6 +37,7 @@ public class LegacyContentType : LegacyObjectBase, IJsonParsable<LegacyContentTy
         Alias = json.GetString("alias")!;
         Name = json.GetString("name")!;
         Icon = json.GetString("icon") ?? string.Empty;
+        IsElement = json.GetBoolean("element");
         Tabs = json.GetArrayItems("tabs", LegacyPropertyGroup.Parse);
         Properties = Tabs.SelectMany(x => x.Properties).ToArray();
     }
