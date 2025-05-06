@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Essentials.Time;
@@ -10,6 +11,8 @@ public class LegacyDataType : LegacyObjectBase, IJsonParsable<LegacyDataType> {
     public int Id { get; }
 
     public Guid Key { get; }
+
+    public ISet<int> Path { get; }
 
     public string Name { get; }
 
@@ -28,10 +31,11 @@ public class LegacyDataType : LegacyObjectBase, IJsonParsable<LegacyDataType> {
     public LegacyDataType(JObject json) : base(json) {
         Id = json.GetInt32("id");
         Key = json.GetGuid("key");
+        Path = new HashSet<int>(json.GetInt32Array("path"));
         Name = json.GetString("name")!;
         DbType = json.GetString("dbType")!;
-        CreateDate = json.GetString("createDate", EssentialsTime.Parse)!;
-        UpdateDate = json.GetString("updateDate", EssentialsTime.Parse)!;
+        CreateDate = json.GetString("createDate", EssentialsTime.FromIso8601)!;
+        UpdateDate = json.GetString("updateDate", EssentialsTime.FromIso8601)!;
         EditorAlias = json.GetString("editorAlias")!;
         Editor = json.GetObject("editor", LegacyDataEditor.Parse);
         Config = json.GetObject("config")!;
