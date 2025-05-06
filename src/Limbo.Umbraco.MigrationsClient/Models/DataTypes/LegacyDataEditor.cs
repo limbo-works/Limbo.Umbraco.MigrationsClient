@@ -27,8 +27,8 @@ public class LegacyDataEditor : LegacyObjectBase, IJsonParsable<LegacyDataEditor
         IsDeprecated = json.GetBoolean("deprecated");
     }
 
-    public static LegacyDataEditor? Parse(JObject? json) {
-        return json is null ? null : new LegacyDataEditor(json);
+    public static LegacyDataEditor Parse(JObject json) {
+        return new LegacyDataEditor(json);
     }
 
 }

@@ -65,8 +65,8 @@ public class LegacyContentType : LegacyObjectBase, IJsonParsable<LegacyContentTy
 
     #region Static methods
 
-    public static LegacyContentType? Parse(JObject? json) {
-        return json == null ? null : new LegacyContentType(json);
+    public static LegacyContentType Parse(JObject json) {
+        return new LegacyContentType(json);
     }
 
     #endregion

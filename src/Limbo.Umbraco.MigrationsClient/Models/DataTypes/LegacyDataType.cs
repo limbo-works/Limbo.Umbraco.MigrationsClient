@@ -41,8 +41,8 @@ public class LegacyDataType : LegacyObjectBase, IJsonParsable<LegacyDataType> {
         Config = json.GetObject("config")!;
     }
 
-    public static LegacyDataType? Parse(JObject? json) {
-        return json is null ? null : new LegacyDataType(json);
+    public static LegacyDataType Parse(JObject json) {
+        return new LegacyDataType(json);
     }
 
 }

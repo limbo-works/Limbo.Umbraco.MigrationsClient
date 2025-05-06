@@ -7,8 +7,7 @@ public interface IJsonParsable<out T> {
 
 #if NET7_0_OR_GREATER
 
-    [return: NotNullIfNotNull(nameof(json))]
-    static abstract T? Parse(JObject? json);
+    static abstract T Parse(JObject json);
 
 #endif
 
