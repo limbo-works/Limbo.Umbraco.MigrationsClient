@@ -220,6 +220,46 @@ public static class LegacyElementExtensions {
 
     #endregion
 
+    /// <summary>
+    /// Returns whether the <paramref name="content"/> is a descendant of the content with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="content">The content.</param>
+    /// <param name="id">The ID of the ancestor.</param>
+    /// <returns><see langword="true"/> if <paramref name="content"/> is a descendant; otherwise, <see langword="false"/>.</returns>
+    public static bool IsDescendant(this ILegacyContent content, int id) {
+        return content.Path.Any(x => x.Id == id);
+    }
+
+    /// <summary>
+    /// Returns whether the <paramref name="content"/> is either a descendant or exact match to the content with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="content">The content.</param>
+    /// <param name="id">The ID of the ancestor.</param>
+    /// <returns><see langword="true"/> if <paramref name="content"/> is a descendant or matches <paramref name="content"/>; otherwise, <see langword="false"/>.</returns>
+    public static bool IsDescendantOrSelf(this ILegacyContent content, int id) {
+        return content.Id == id || content.Path.Any(x => x.Id == id);
+    }
+
+    /// <summary>
+    /// Returns whether the <paramref name="media"/> is a descendant of the media with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="media">The media.</param>
+    /// <param name="id">The ID of the ancestor.</param>
+    /// <returns><see langword="true"/> if <paramref name="media"/> is a descendant; otherwise, <see langword="false"/>.</returns>
+    public static bool IsDescendant(this ILegacyMedia media, int id) {
+        return media.Path.Any(x => x.Id == id);
+    }
+
+    /// <summary>
+    /// Returns whether the <paramref name="media"/> is either a descendant or exact match to the media with the specified <paramref name="id"/>.
+    /// </summary>
+    /// <param name="media">The media.</param>
+    /// <param name="id">The ID of the ancestor.</param>
+    /// <returns><see langword="true"/> if <paramref name="media"/> is a descendant or matches <paramref name="media"/>; otherwise, <see langword="false"/>.</returns>
+    public static bool IsDescendantOrSelf(this ILegacyMedia media, int id) {
+        return media.Id == id || media.Path.Any(x => x.Id == id);
+    }
+
     public static List<ILegacyContentItem> GetDescendants(this ILegacyContent content) {
 
         List<ILegacyContentItem> descendants = [];
