@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using Limbo.Umbraco.MigrationsClient.Exceptions;
-using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -196,14 +196,66 @@ public class ElementsItem {
         };
     }
 
-    public ElementsModel? GetElements(string propertyName, ILegacyElement owner, SkybrudElementsParser parser) {
+    /// <summary>
+    /// Returns the <see cref="ElementsModel"/> of the property with the specified <paramref name="propertyName"/>, or <see langword="null"/> if not found.
+    /// </summary>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <param name="owner">The page or element that holds the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>An instance of <see cref="ElementsModel"/> if successful; otherwise, <see langword="null"/>.</returns>
+    public ElementsModel? GetElements(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) {
         return GetArray(propertyName) is not { } array ? null : parser.ParseElements(array, owner, null);
     }
 
+    /// <summary>
+    /// Returns the first <see cref="ElementsItem"/> of the elements of the property with the specified <paramref name="propertyName"/>, or <see langword="null"/> if not found.
+    /// </summary>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <param name="owner">The page or element that holds the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>An instance <see cref="ElementsItem"/>.</returns>
+    public ElementsItem? GetElementItem(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) {
+        return GetElements(propertyName, owner, parser)?.Items.FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Returns the first element of the elements of the property with the specified <paramref name="propertyName"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the item.</typeparam>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <param name="owner">The page or element that holds the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>An instance of <typeparamref name="T"/>.</returns>
+    public T? GetElementItem<T>(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) where T : ElementsItem {
+
+        ElementsItem? item = GetElements(propertyName, owner, parser)?.Items.FirstOrDefault();
+        if (item is null) return null;
+
+        if (item is not T t) throw new MigrationsParseException($"An item is not of expected type '{typeof(T)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
+
+        return t;
+
+    }
+
+    /// <summary>
+    /// Returns a list of <see cref="ElementsItem"/> representing the elements of the property with the specified <paramref name="propertyName"/>.
+    /// </summary>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <param name="owner">The page or element that holds the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>A list of <see cref="ElementsItem"/>.</returns>
     public IReadOnlyList<ElementsItem> GetElementItems(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) {
         return GetArray(propertyName) is not { } array ? [] : parser.ParseElements(array, owner, null)?.Items ?? [];
     }
 
+    /// <summary>
+    /// Returns a list of <typeparamref name="T"/> representing the elements of the property with the specified <paramref name="propertyName"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the items.</typeparam>
+    /// <param name="propertyName">The name of the property.</param>
+    /// <param name="owner">The page or element that holds the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>A list of <typeparamref name="T"/>.</returns>
     public IReadOnlyList<T> GetElementItems<T>(string propertyName, ILegacyElement? owner, SkybrudElementsParser parser) where T : ElementsItem {
 
         IReadOnlyList<ElementsItem> source = GetElementItems(propertyName, owner, parser);

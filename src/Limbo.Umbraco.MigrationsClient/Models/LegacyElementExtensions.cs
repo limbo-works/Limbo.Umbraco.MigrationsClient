@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Limbo.Umbraco.MigrationsClient.Exceptions;
 using Limbo.Umbraco.MigrationsClient.Models.Content;
 using Limbo.Umbraco.MigrationsClient.Models.Media;
 using Limbo.Umbraco.MigrationsClient.Models.Properties;
@@ -144,14 +145,6 @@ public static class LegacyElementExtensions {
         };
     }
 
-    public static ElementsItem? GetElement(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
-        return GetElements(content, propertyAlias, parser)?.FirstOrDefault();
-    }
-
-    public static T? GetElement<T>(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) where T : ElementsItem {
-        return GetElements(content, propertyAlias, parser)?.Cast<T>()?.FirstOrDefault();
-    }
-
     public static ElementsModel? GetElements(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
         if (!content.TryGetProperty(propertyAlias, out ILegacyProperty? property)) return null;
         return property.Value switch {
@@ -160,8 +153,69 @@ public static class LegacyElementExtensions {
         };
     }
 
-    public static IReadOnlyList<T> GetElements<T>(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) where T : ElementsItem {
-        return GetElements(content, propertyAlias, parser)?.Cast<T>()?.ToList() ?? [];
+    /// <summary>
+    /// Returns the first <see cref="ElementsItem"/> of the elements of the property with the specified <paramref name="propertyAlias"/>, or <see langword="null"/> if not found.
+    /// </summary>
+    /// <param name="content">The page or element that holds the property.</param>
+    /// <param name="propertyAlias">The alias of the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>An instance <see cref="ElementsItem"/>.</returns>
+    public static ElementsItem? GetElementItem(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
+        return GetElements(content, propertyAlias, parser)?.Items.FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Returns the first element of the elements of the property with the specified <paramref name="propertyAlias"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the item.</typeparam>
+    /// <param name="content">The page or element that holds the property.</param>
+    /// <param name="propertyAlias">The alias of the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>An instance of <typeparamref name="T"/>.</returns>
+    public static T? GetElementItem<T>(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) where T : ElementsItem {
+
+        ElementsItem? item = GetElements(content, propertyAlias, parser)?.Items.FirstOrDefault();
+        if (item is null) return null;
+
+        if (item is not T t) throw new MigrationsParseException($"An item is not of expected type '{typeof(T)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
+
+        return t;
+
+    }
+
+    /// <summary>
+    /// Returns a list of <see cref="ElementsItem"/> representing the elements of the property with the specified <paramref name="propertyAlias"/>.
+    /// </summary>
+    /// <param name="content">The page or element that holds the property.</param>
+    /// <param name="propertyAlias">The alias of the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>A list of <see cref="ElementsItem"/>.</returns>
+    public static IReadOnlyList<ElementsItem> GetElementItems(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) {
+        return GetElements(content, propertyAlias, parser)?.Items ?? [];
+    }
+
+    /// <summary>
+    /// Returns a list of <typeparamref name="T"/> representing the elements of the property with the specified <paramref name="propertyAlias"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the items.</typeparam>
+    /// <param name="content">The page or element that holds the property.</param>
+    /// <param name="propertyAlias">The alias of the property.</param>
+    /// <param name="parser">The elements parser.</param>
+    /// <returns>A list of <typeparamref name="T"/>.</returns>
+    public static IReadOnlyList<T> GetElementItems<T>(this ILegacyElement content, string propertyAlias, SkybrudElementsParser parser) where T : ElementsItem {
+
+        IReadOnlyList<ElementsItem> source = GetElementItems(content, propertyAlias, parser);
+
+        if (source.Count == 0) return [];
+
+        List<T> temp = [];
+        foreach (ElementsItem item in source) {
+            if (item is not T t) throw new MigrationsParseException($"An item is not of expected type '{typeof(T)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
+            temp.Add(t);
+        }
+
+        return temp;
+
     }
 
     #endregion
