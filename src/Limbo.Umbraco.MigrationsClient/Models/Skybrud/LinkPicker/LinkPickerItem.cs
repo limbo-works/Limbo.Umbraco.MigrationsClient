@@ -27,7 +27,7 @@ public class LinkPickerItem : LegacyObjectBase {
         Udi = json.GetString("udi");
         Url = json.GetString("url");
         Target = json.GetString("target");
-        Type = json.GetEnumOrNull<LinkPickerType>("type") ?? json.GetEnumOrNull<LinkPickerType>("mode") ?? throw new MigrationsParseExcetion("Link item JSON source does contain either a 'type' or 'mode' property.");
+        Type = json.GetEnumOrNull<LinkPickerType>("type") ?? json.GetEnumOrNull<LinkPickerType>("mode") ?? throw new MigrationsParseException("Link item JSON source does contain either a 'type' or 'mode' property.");
     }
 
     [return: NotNullIfNotNull(nameof(json))]

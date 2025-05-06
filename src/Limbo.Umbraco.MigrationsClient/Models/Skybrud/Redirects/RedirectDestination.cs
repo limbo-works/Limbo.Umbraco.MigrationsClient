@@ -34,7 +34,7 @@ public class RedirectDestination : LegacyObjectBase {
         Name = json.GetString("name")!;
         Url = json.GetString("url");
         Target = json.GetString("target");
-        Type = json.GetEnumOrNull<RedirectDestinationType>("type") ?? json.GetEnumOrNull<RedirectDestinationType>("mode") ?? throw new MigrationsParseExcetion("Redirect destination JSON source does contain either a 'type' or 'mode' property.");
+        Type = json.GetEnumOrNull<RedirectDestinationType>("type") ?? json.GetEnumOrNull<RedirectDestinationType>("mode") ?? throw new MigrationsParseException("Redirect destination JSON source does contain either a 'type' or 'mode' property.");
     }
 
     [return: NotNullIfNotNull(nameof(json))]

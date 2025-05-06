@@ -138,7 +138,7 @@ public class SkybrudGridDataParser {
 
         } catch (JsonPropertyNotFoundException ex) {
 
-            throw new MigrationsParseExcetion($"Failed parsing grid editor.\r\n\r\n{json}", ex);
+            throw new MigrationsParseException($"Failed parsing grid editor.\r\n\r\n{json}", ex);
 
         }
 

@@ -212,7 +212,7 @@ public class ElementsItem {
 
         List<T> temp = [];
         foreach (ElementsItem item in source) {
-            if (item is not T t) throw new MigrationsParseExcetion($"An item is not of expected type '{typeof(T)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
+            if (item is not T t) throw new MigrationsParseException($"An item is not of expected type '{typeof(T)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
             temp.Add(t);
         }
 
