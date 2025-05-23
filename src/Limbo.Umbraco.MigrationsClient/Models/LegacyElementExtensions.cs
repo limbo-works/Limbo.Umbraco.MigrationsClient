@@ -9,6 +9,8 @@ using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Elements;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco;
+using Limbo.Umbraco.MigrationsClient.Models.Umbraco.NestedContent;
+using Limbo.Umbraco.MigrationsClient.Parsers.Community;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Collections.Extensions;
@@ -386,6 +388,45 @@ public static class LegacyElementExtensions {
             list.Add(child);
             GetDescendants(child, list);
         }
+
+    }
+
+    /// <summary>
+    /// Returns a <see cref="NestedContentModel"/> representing the value of the property with the specified <paramref name="propertyAlias"/>.
+    /// </summary>
+    /// <param name="content">The legacy content/page.</param>
+    /// <param name="propertyAlias">The alias of the property.</param>
+    /// <param name="parser">An instance of <see cref="INestedContentParser"/> for parsing the JSON value.</param>
+    /// <returns>An instance of <see cref="NestedContentModel"/> if successful; otherwise, <see langword="null"/>.</returns>
+    public static NestedContentModel? GetNestedContentModel(this LegacyContent content, string propertyAlias, INestedContentParser parser) {
+        if (!content.TryGetProperty(propertyAlias, out ILegacyProperty? property)) return null;
+        if (property.Value.Type == JTokenType.Null) return null;
+        if (property.Value is not JArray array) throw new MigrationsParseException("Property value must be an instance of 'JArray'.");
+        return parser.ParseModel(array, content, property);
+    }
+
+    /// <summary>
+    /// Gets a list of <typeparamref name="TItem"/> representing the value of the property with the specified <paramref name="propertyAlias"/>.
+    /// </summary>
+    /// <typeparam name="TItem">The type of the items.</typeparam>
+    /// <param name="content">The legacy content/page.</param>
+    /// <param name="propertyAlias">The alias of the property.</param>
+    /// <param name="parser">An instance of <see cref="INestedContentParser"/> for parsing the JSON value.</param>
+    /// <returns>A list of <typeparamref name="TItem"/>.</returns>
+    public static IReadOnlyList<TItem> GetNestedContentItems<TItem>(this LegacyContent content, string propertyAlias, INestedContentParser parser) where TItem : NestedContentItem {
+
+        NestedContentModel? model = GetNestedContentModel(content, propertyAlias, parser);
+        if (model is null) return [];
+
+        List<TItem> temp = [];
+        foreach (NestedContentItem item in model) {
+
+            if (item is not TItem t) throw new MigrationsParseException($"An item is not of expected type '{typeof(TItem)}', got '{item.GetType()}' instead...\r\n\r\n{JObject.FromObject(item)}");
+            temp.Add(t);
+
+        }
+
+        return temp;
 
     }
 
