@@ -11,9 +11,7 @@ public class LegacyMediaPickerList : List<LegacyMediaPickerItem> {
     public LegacyMediaPickerList(IEnumerable<LegacyMediaPickerItem> items) : base(items) { }
 
     public static LegacyMediaPickerList Parse(JArray array) {
-        return new LegacyMediaPickerList(array.Cast<JObject>().Select(LegacyMediaPickerItem.Parse));
-
-
+        return [.. array.Cast<JObject>().Select(LegacyMediaPickerItem.Parse)];
     }
 
 }

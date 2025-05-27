@@ -12,6 +12,7 @@ using Limbo.Umbraco.MigrationsClient.Models.Umbraco;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.BlockList;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.MediaPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.NestedContent;
+using Limbo.Umbraco.MigrationsClient.Models.Umbraco.UrlPicker;
 using Limbo.Umbraco.MigrationsClient.Parsers.Community;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
 using Newtonsoft.Json.Linq;
@@ -236,6 +237,13 @@ public static class LegacyElementExtensions {
         if (value.Type == JTokenType.Null) return null;
         if (value is not JArray array) throw new MigrationsParseException($"Property value is not a valid JArray.\r\n\r\n{value}");
         return LegacyMediaPickerList.Parse(array);
+    }
+
+    public static LegacyUrlPickerList? GetUrlPickerList(this LegacyContent content, string propertyAlias) {
+        JToken value = content.GetToken(propertyAlias);
+        if (value.Type == JTokenType.Null) return null;
+        if (value is not JArray array) throw new MigrationsParseException($"Property value is not a valid JArray.\r\n\r\n{value}");
+        return LegacyUrlPickerList.Parse(array);
     }
 
     /// <summary>

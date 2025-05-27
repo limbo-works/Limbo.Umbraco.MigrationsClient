@@ -59,6 +59,25 @@ public class GuidUdi {
 
     }
 
+    public static GuidUdi? ParseOrNullIfEmpty(string? s) {
+
+        if (string.IsNullOrWhiteSpace(s)) return null;
+
+        if (Uri.IsWellFormedUriString(s, UriKind.Absolute) == false || Uri.TryCreate(s, UriKind.Absolute, out Uri? uri) == false) {
+            throw new FormatException($"String \"{s}\" is not a valid udi.");
+        }
+
+        string entityType = uri.Host;
+        string path = uri.AbsolutePath.TrimStart('/');
+
+        if (!Guid.TryParse(path, out Guid guid)) {
+            throw new FormatException($"String \"{s}\" is not a valid udi.");
+        }
+
+        return new GuidUdi(entityType, guid);
+
+    }
+
     public static bool TryParse(string? s, [NotNullWhen(true)] out GuidUdi? result) {
 
         result = null;
