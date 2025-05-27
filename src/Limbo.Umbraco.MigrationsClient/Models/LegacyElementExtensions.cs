@@ -9,6 +9,7 @@ using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Elements;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco;
+using Limbo.Umbraco.MigrationsClient.Models.Umbraco.MediaPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.NestedContent;
 using Limbo.Umbraco.MigrationsClient.Parsers.Community;
 using Limbo.Umbraco.MigrationsClient.Parsers.Skybrud;
@@ -221,6 +222,13 @@ public static class LegacyElementExtensions {
     }
 
     #endregion
+
+    public static LegacyMediaPickerList? GetMediaPickerList(this LegacyContent content, string propertyAlias) {
+        JToken value = content.GetToken(propertyAlias);
+        if (value.Type == JTokenType.Null) return null;
+        if (value is not JArray array) throw new MigrationsParseException($"Property value is not a valid JArray.\r\n\r\n{value}");
+        return LegacyMediaPickerList.Parse(array);
+    }
 
     /// <summary>
     /// Returns whether the <paramref name="content"/> is a descendant of the content with the specified <paramref name="id"/>.
