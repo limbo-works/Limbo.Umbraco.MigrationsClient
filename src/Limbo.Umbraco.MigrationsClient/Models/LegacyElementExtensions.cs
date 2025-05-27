@@ -9,6 +9,7 @@ using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Elements;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.Grid;
 using Limbo.Umbraco.MigrationsClient.Models.Skybrud.LinkPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco;
+using Limbo.Umbraco.MigrationsClient.Models.Umbraco.BlockList;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.MediaPicker;
 using Limbo.Umbraco.MigrationsClient.Models.Umbraco.NestedContent;
 using Limbo.Umbraco.MigrationsClient.Parsers.Community;
@@ -222,6 +223,13 @@ public static class LegacyElementExtensions {
     }
 
     #endregion
+
+    public static LegacyBlockListModel? GetBlockListModel(this LegacyContent content, string propertyAlias) {
+        JToken value = content.GetToken(propertyAlias);
+        if (value.Type == JTokenType.Null) return null;
+        if (value is not JObject json) throw new MigrationsParseException($"Property value is not a valid JObject.\r\n\r\n{value}");
+        return LegacyBlockListModel.Parse(json);
+    }
 
     public static LegacyMediaPickerList? GetMediaPickerList(this LegacyContent content, string propertyAlias) {
         JToken value = content.GetToken(propertyAlias);
