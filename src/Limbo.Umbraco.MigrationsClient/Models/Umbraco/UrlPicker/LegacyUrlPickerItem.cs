@@ -28,10 +28,17 @@ public class LegacyUrlPickerItem : LegacyObjectBase {
     private LegacyUrlPickerItem(JObject json) : base(json) {
         Name = json.GetString("name") ?? string.Empty;
         Target = json.GetString("target").NullIfWhiteSpace();
-        Type = json.GetRequiredEnum<LegacyUrlPickerType>("type");
-        Udi = json.GetString("target", GuidUdi.ParseOrNullIfEmpty);
+        Udi = json.GetString("udi", GuidUdi.ParseOrNullIfEmpty);
         Url = json.GetString("url").NullIfWhiteSpace();
         QueryString = json.GetString("queryString").NullIfWhiteSpace();
+
+        if (Udi is not null && Udi.EntityType == "document") {
+            Type = LegacyUrlPickerType.Content;
+        } else if (Udi is not null && Udi.EntityType == "media") {
+            Type = LegacyUrlPickerType.Media;
+        } else {
+            Type = LegacyUrlPickerType.External;
+        }
     }
 
     public static LegacyUrlPickerItem Parse(JObject json) {
