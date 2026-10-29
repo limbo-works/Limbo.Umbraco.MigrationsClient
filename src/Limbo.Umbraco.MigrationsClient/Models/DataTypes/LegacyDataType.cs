@@ -34,8 +34,8 @@ public class LegacyDataType : LegacyObjectBase, IJsonParsable<LegacyDataType> {
         Path = new HashSet<int>(json.GetInt32Array("path"));
         Name = json.GetString("name")!;
         DbType = json.GetString("dbType")!;
-        CreateDate = json.GetString("createDate", EssentialsTime.FromIso8601)!;
-        UpdateDate = json.GetString("updateDate", EssentialsTime.FromIso8601)!;
+        CreateDate = json.GetString("createDate", EssentialsTime.ParseIso8601)!;
+        UpdateDate = json.GetString("updateDate", EssentialsTime.ParseIso8601)!;
         EditorAlias = json.GetString("editorAlias")!;
         Editor = json.GetObject("editor", LegacyDataEditor.Parse);
         Config = json.GetObject("config")!;

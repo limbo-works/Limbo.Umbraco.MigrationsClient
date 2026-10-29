@@ -46,8 +46,8 @@ public class LegacyContentType : LegacyObjectBase, IJsonParsable<LegacyContentTy
         Name = json.GetString("name")!;
         Icon = json.GetString("icon") ?? string.Empty;
         IsElement = json.GetBoolean("element");
-        CreateDate = json.GetString("createDate", EssentialsTime.FromIso8601)!;
-        UpdateDate = json.GetString("updateDate", EssentialsTime.FromIso8601)!;
+        CreateDate = json.GetString("createDate", EssentialsTime.ParseIso8601)!;
+        UpdateDate = json.GetString("updateDate", EssentialsTime.ParseIso8601)!;
         Tabs = json.GetArrayItems("tabs", LegacyPropertyGroup.Parse);
         Properties = Tabs.SelectMany(x => x.Properties).ToArray();
     }
