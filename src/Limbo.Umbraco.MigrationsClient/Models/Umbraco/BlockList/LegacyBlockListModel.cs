@@ -80,7 +80,7 @@ public class LegacyBlockListModel : IReadOnlyList<LegacyBlockListItem> {
 
                 LegacyBlockListPart contentData2 = contentData.Single(x => x.Udi == contentUdi);
 
-                LegacyBlockListPart? settingsData2 = null;
+                LegacyBlockListPart? settingsData2 = settingsUdi is null ? null : settingsData.SingleOrDefault(x => x.Udi == settingsUdi);
 
                 blocks.Add(new LegacyBlockListItem(contentUdi, settingsUdi, contentData2, settingsData2));
 
