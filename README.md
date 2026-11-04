@@ -13,7 +13,7 @@
   </tr>
   <tr>
     <td><strong>Target Framework:</strong></td>
-    <td>.NET 6 + .NET 7 + .NET 8</td>
+    <td>.NET 6 + .NET 7 + .NET 8 + .NET 10</td>
   </tr>
 </table>
 
